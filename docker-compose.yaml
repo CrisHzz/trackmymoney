@@ -10,8 +10,22 @@ services:
     environment:
       - NODE_ENV=development
       - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/trackmymoney?schema=public
     depends_on:
       - elasticsearch
+      - postgres
+    restart: always
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=trackmymoney
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     restart: always
 
   elasticsearch:
@@ -38,3 +52,4 @@ services:
 
 volumes:
   elasticsearch-data:
+  postgres-data:

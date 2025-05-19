@@ -12,7 +12,7 @@ async function seedData() {
         description: 'Salario mensual',
         category: 'Salario',
         type: 'income' as const,
-        date: new Date('2024-03-01'),
+        date: new Date('2025-05-18'),
         userId: 'user1'
       },
       {
@@ -20,7 +20,7 @@ async function seedData() {
         description: 'Alquiler',
         category: 'Vivienda',
         type: 'expense' as const,
-        date: new Date('2024-03-05'),
+        date: new Date('2025-05-18'),
         userId: 'user1'
       },
       {
@@ -28,7 +28,7 @@ async function seedData() {
         description: 'Supermercado',
         category: 'Alimentación',
         type: 'expense' as const,
-        date: new Date('2024-03-10'),
+        date: new Date('2025-05-18'),
         userId: 'user1'
       },
       {
@@ -36,7 +36,7 @@ async function seedData() {
         description: 'Gasolina',
         category: 'Transporte',
         type: 'expense' as const,
-        date: new Date('2024-03-15'),
+        date: new Date('2025-05-18'),
         userId: 'user1'
       },
       {
@@ -44,7 +44,7 @@ async function seedData() {
         description: 'Freelance',
         category: 'Trabajo extra',
         type: 'income' as const,
-        date: new Date('2024-03-20'),
+        date: new Date('2025-05-18'),
         userId: 'user1'
       }
     ];
