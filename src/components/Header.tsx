@@ -38,7 +38,7 @@ const Header = () => {
   const navLinks = [
     { 
       name: 'Dashboard', 
-      href: '/dashboard', 
+      href: '/pages/dashboard', 
       icon: <LayoutDashboard className="w-4 h-4" /> 
     },
     { 
