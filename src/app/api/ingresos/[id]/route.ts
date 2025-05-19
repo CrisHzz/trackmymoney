@@ -90,20 +90,42 @@ export async function DELETE(
 ) {
   try {
     const user = await currentUser();
+    console.log('Current user for DELETE:', user);
     
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Buscar el usuario por email
+    const dbUser = await prisma.usuario.findFirst({
+      where: { 
+        email: user.emailAddresses[0]?.emailAddress 
+      }
+    });
+
+    if (!dbUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    console.log('Deleting income:', {
+      id: parseInt(params.id),
+      usuario_id: dbUser.id
+    });
+
     await prisma.ingreso.delete({
       where: {
         id: parseInt(params.id),
-        usuario_id: parseInt(user.id)
+        usuario_id: dbUser.id
       }
     });
 
     return NextResponse.json({ message: 'Income deleted successfully' });
-  } catch (error) {
-    return NextResponse.json({ error: 'Error deleting income' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Error deleting income:', error);
+    return NextResponse.json({ 
+      error: 'Error deleting income', 
+      details: error.message,
+      stack: error.stack 
+    }, { status: 500 });
   }
 } 

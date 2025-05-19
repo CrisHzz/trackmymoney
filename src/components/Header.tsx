@@ -7,11 +7,11 @@ import { motion } from 'framer-motion';
 import { 
   LayoutDashboard, 
   TrendingUp, 
-  ShoppingBag, 
   User,
   ChevronDown,
   Menu,
-  X
+  X,
+  Squirrel
 } from 'lucide-react';
 import UserProfile from './UserProfile'; // Importamos el componente UserProfile
 
@@ -43,17 +43,17 @@ const Header = () => {
     },
     { 
       name: 'Proyecciones', 
-      href: '/projections', 
+      href: '/pages/projections', 
       icon: <TrendingUp className="w-4 h-4" /> 
     },
     { 
       name: 'Butz', 
-      href: '/butz', 
-      icon: <ShoppingBag className="w-4 h-4" /> 
+      href: '/pages/butz', 
+      icon: <Squirrel className="w-4 h-4" /> 
     },
     { 
       name: 'Perfil', 
-      href: '/user', 
+      href: '/pages/user', 
       icon: <User className="w-4 h-4" /> 
     },
   ];

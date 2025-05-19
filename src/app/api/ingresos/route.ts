@@ -8,17 +8,30 @@ const prisma = new PrismaClient();
 export async function GET() {
   try {
     const user = await currentUser();
+    console.log('Current user:', user);
     
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const dbUser = await prisma.usuario.findUnique({
-      where: { id: parseInt(user.id) }
+    // Buscar el usuario por email en lugar de ID
+    const dbUser = await prisma.usuario.findFirst({
+      where: { 
+        email: user.emailAddresses[0]?.emailAddress 
+      }
     });
 
     if (!dbUser) {
-      return NextResponse.json({ error: 'User not found in database' }, { status: 404 });
+      console.log('User not found in database, creating new user');
+      // Crear el usuario si no existe
+      const newUser = await prisma.usuario.create({
+        data: {
+          nombre: user.firstName || 'Usuario',
+          email: user.emailAddresses[0]?.emailAddress || 'usuario@example.com',
+          moneda_preferida: 'USD'
+        }
+      });
+      return NextResponse.json([]); // Retornar array vacío para nuevo usuario
     }
 
     const ingresos = await prisma.ingreso.findMany({
@@ -33,7 +46,11 @@ export async function GET() {
     return NextResponse.json(ingresos);
   } catch (error: any) {
     console.error('Error fetching income:', error);
-    return NextResponse.json({ error: 'Error fetching income', details: error.message }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'Error fetching income', 
+      details: error.message,
+      stack: error.stack 
+    }, { status: 500 });
   }
 }
 
@@ -41,12 +58,15 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const user = await currentUser();
+    console.log('Current user for POST:', user);
     
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
+    console.log('Request body:', body);
+    
     const { 
       monto, 
       fecha, 
@@ -58,19 +78,21 @@ export async function POST(request: Request) {
       fecha_fin 
     } = body;
 
-    // Primero, verificar si el usuario existe en la base de datos
-    let dbUser = await prisma.usuario.findUnique({
-      where: { id: parseInt(user.id) }
+    // Buscar el usuario por email
+    let dbUser = await prisma.usuario.findFirst({
+      where: { 
+        email: user.emailAddresses[0]?.emailAddress 
+      }
     });
 
     // Si el usuario no existe, crearlo
     if (!dbUser) {
+      console.log('Creating new user for POST');
       dbUser = await prisma.usuario.create({
         data: {
-          id: parseInt(user.id),
           nombre: user.firstName || 'Usuario',
           email: user.emailAddresses[0]?.emailAddress || 'usuario@example.com',
-          moneda_preferida: 'USD' // Valor por defecto
+          moneda_preferida: 'USD'
         }
       });
     }
@@ -94,12 +116,12 @@ export async function POST(request: Request) {
             id: dbUser.id
           }
         },
-        monto,
+        monto: parseFloat(monto),
         fecha: new Date(fecha),
         descripcion,
         tipo_ingreso,
-        recurrente,
-        frecuencia,
+        recurrente: recurrente || false,
+        frecuencia: frecuencia || null,
         fecha_fin: fecha_fin ? new Date(fecha_fin) : null,
         ...(categoria_id ? {
           categoria: {
@@ -117,7 +139,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ 
       error: 'Error creating income', 
       details: error.message,
-      code: error.code
+      code: error.code,
+      stack: error.stack
     }, { status: 500 });
   }
 } 

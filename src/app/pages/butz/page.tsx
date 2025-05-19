@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Butz() {
   return (
-    <div>Butz</div>
+    <div>Nuestro chat bot de ia butz te ayudara a planificar tu futuro y a guardar tus bellotas!</div>
   )
 }

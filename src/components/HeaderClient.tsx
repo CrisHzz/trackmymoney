@@ -8,7 +8,7 @@ export default function HeaderClient() {
   const showHeader = pathname.startsWith('/pages/dashboard') || 
                     pathname.startsWith('/pages/user') || 
                     pathname.startsWith('/pages/butz')||
-                    pathname.startsWith('/pages/proyecciones');
+                    pathname.startsWith('/pages/projections');
   
 
   return (

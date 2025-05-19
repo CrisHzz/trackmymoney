@@ -2,6 +2,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import HeaderClient from "../components/HeaderClient";
+import { Toaster } from 'react-hot-toast';
 
 export default function RootLayout({
   children,
@@ -23,6 +24,7 @@ export default function RootLayout({
           <main>
             {children}
           </main>
+          <Toaster position="top-right" />
         </body>
       </html>
     </ClerkProvider>
