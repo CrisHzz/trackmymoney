@@ -9,7 +9,9 @@ export default function HeaderClient() {
                     pathname.startsWith('/pages/user') || 
                     pathname.startsWith('/pages/butz')||
                     pathname.startsWith('/pages/stats')||
-                    pathname.startsWith('/pages/projections');
+                    pathname.startsWith('/pages/projections')||
+                    pathname.startsWith('/pages/expenses')||
+                    pathname.startsWith('/pages/income');
   
 
   return (

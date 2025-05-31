@@ -25,7 +25,7 @@ model Usuario {
 
 model Categoria {
   id        Int                  @id @default(autoincrement())
-  nombre    String
+  nombre    String               @unique
   gastos    Gasto[]
   ingresos  Ingreso[]
   objetivos ObjetivoFinanciero[]

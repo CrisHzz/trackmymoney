@@ -7,99 +7,138 @@ const prisma = new PrismaClient();
 // GET all expenses for the authenticated user
 export async function GET() {
   try {
+    console.log('🔍 Iniciando GET /api/gastos');
+    
     const user = await currentUser();
+    console.log('👤 Usuario actual:', user?.id);
     
     if (!user) {
+      console.log('❌ Usuario no autenticado');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const dbUser = await prisma.usuario.findFirst({
-      where: { email: user.emailAddresses[0]?.emailAddress }
-    });
+    const userEmail = user.emailAddresses[0]?.emailAddress;
+    console.log('📧 Email del usuario:', userEmail);
 
-    if (!dbUser) {
-      return NextResponse.json({ error: 'User not found in database' }, { status: 404 });
+    if (!userEmail) {
+      console.log('❌ Email no encontrado');
+      return NextResponse.json({ error: 'Email not found' }, { status: 400 });
     }
 
+    console.log('🔍 Buscando usuario en BD...');
+    const dbUser = await prisma.usuario.findFirst({
+      where: { email: userEmail }
+    });
+
+    console.log('👤 Usuario en BD:', dbUser?.id);
+
+    if (!dbUser) {
+      console.log('⚠️ Usuario no encontrado en BD, devolviendo array vacío');
+      return NextResponse.json([]);
+    }
+
+    console.log('🔍 Buscando gastos...');
     const gastos = await prisma.gasto.findMany({
       where: {
         usuario_id: dbUser.id
       },
       include: {
         categoria: true
+      },
+      orderBy: {
+        fecha: 'desc'
       }
     });
 
+    console.log('💰 Gastos encontrados:', gastos.length);
     return NextResponse.json(gastos);
   } catch (error: any) {
-    console.error('Error fetching expenses:', error);
-    return NextResponse.json({ error: 'Error fetching expenses', details: error.message }, { status: 500 });
+    console.error('❌ Error obteniendo gastos:', error);
+    return NextResponse.json({ 
+      error: 'Error fetching expenses', 
+      details: error.message 
+    }, { status: 500 });
   }
 }
 
 // POST new expense
 export async function POST(request: Request) {
   try {
+    console.log('📝 Iniciando POST /api/gastos');
+    
     const user = await currentUser();
     
     if (!user) {
+      console.log('❌ Usuario no autenticado');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
+    console.log('📋 Datos recibidos:', body);
+    
     const { monto, fecha, descripcion, categoria_id, factura, metodo_pago } = body;
 
-    // Primero, verificar si el usuario existe en la base de datos
+    // Validaciones
+    if (!monto || !fecha) {
+      return NextResponse.json({ 
+        error: 'Monto y fecha son requeridos' 
+      }, { status: 400 });
+    }
+
+    const userEmail = user.emailAddresses[0]?.emailAddress;
+    if (!userEmail) {
+      return NextResponse.json({ error: 'Email not found' }, { status: 400 });
+    }
+
+    // Buscar o crear usuario
     let dbUser = await prisma.usuario.findFirst({
-      where: { email: user.emailAddresses[0]?.emailAddress }
+      where: { email: userEmail }
     });
 
-    // Si el usuario no existe, crearlo
     if (!dbUser) {
+      console.log('👤 Creando nuevo usuario...');
       dbUser = await prisma.usuario.create({
         data: {
           nombre: user.firstName || 'Usuario',
-          email: user.emailAddresses[0]?.emailAddress || 'usuario@example.com',
-          moneda_preferida: 'USD' // Valor por defecto
+          email: userEmail,
+          moneda_preferida: 'USD'
         }
       });
     }
 
-    console.log('Creating expense with data:', {
-      usuario_id: dbUser.id,
-      monto,
-      fecha: new Date(fecha),
-      descripcion,
-      categoria_id: categoria_id ? parseInt(categoria_id) : null,
-      factura,
-      metodo_pago
-    });
+    // Validar categoría si se proporciona
+    if (categoria_id) {
+      const categoriaExiste = await prisma.categoria.findUnique({
+        where: { id: parseInt(categoria_id) }
+      });
+      
+      if (!categoriaExiste) {
+        return NextResponse.json({ 
+          error: 'Categoría no válida' 
+        }, { status: 400 });
+      }
+    }
 
+    console.log('💰 Creando gasto...');
     const gasto = await prisma.gasto.create({
       data: {
-        usuario: {
-          connect: {
-            id: dbUser.id
-          }
-        },
-        monto,
+        usuario_id: dbUser.id,
+        monto: parseFloat(monto),
         fecha: new Date(fecha),
-        descripcion,
-        factura,
-        metodo_pago,
-        ...(categoria_id ? {
-          categoria: {
-            connect: {
-              id: parseInt(categoria_id)
-            }
-          }
-        } : {})
+        descripcion: descripcion || null,
+        categoria_id: categoria_id ? parseInt(categoria_id) : null,
+        factura: factura || false,
+        metodo_pago: metodo_pago || null
+      },
+      include: {
+        categoria: true
       }
     });
 
+    console.log('✅ Gasto creado:', gasto.id);
     return NextResponse.json(gasto);
   } catch (error: any) {
-    console.error('Error creating expense:', error);
+    console.error('❌ Error creando gasto:', error);
     return NextResponse.json({ 
       error: 'Error creating expense', 
       details: error.message,

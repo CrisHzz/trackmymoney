@@ -14,10 +14,8 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
-  LineChart,
-  Line,
-  Area,
-  AreaChart
+  AreaChart,
+  Area
 } from 'recharts';
 
 interface Categoria {
@@ -41,12 +39,6 @@ interface Ingreso {
   descripcion: string;
   categoria?: Categoria;
   tipo_ingreso?: string;
-}
-
-interface ChartData {
-  name: string;
-  value: number;
-  color?: string;
 }
 
 interface MonthlyData {
@@ -76,39 +68,37 @@ export default function StatsPage() {
         setError(null);
         setDebugInfo('Iniciando carga de datos...');
 
-        console.log('Fetching gastos...');
+        console.log('🔍 Obteniendo gastos...');
         const gastosResponse = await fetch('/api/gastos');
-        console.log('Gastos response status:', gastosResponse.status);
+        console.log('📊 Gastos response status:', gastosResponse.status);
         
         if (!gastosResponse.ok) {
           const errorText = await gastosResponse.text();
-          console.error('Gastos error response:', errorText);
-          setDebugInfo(`Error en gastos: ${gastosResponse.status} - ${errorText}`);
+          console.error('❌ Gastos error response:', errorText);
           throw new Error(`Error fetching gastos: ${gastosResponse.status}`);
         }
 
-        console.log('Fetching ingresos...');
+        console.log('🔍 Obteniendo ingresos...');
         const ingresosResponse = await fetch('/api/ingresos');
-        console.log('Ingresos response status:', ingresosResponse.status);
+        console.log('📊 Ingresos response status:', ingresosResponse.status);
         
         if (!ingresosResponse.ok) {
           const errorText = await ingresosResponse.text();
-          console.error('Ingresos error response:', errorText);
-          setDebugInfo(`Error en ingresos: ${ingresosResponse.status} - ${errorText}`);
+          console.error('❌ Ingresos error response:', errorText);
           throw new Error(`Error fetching ingresos: ${ingresosResponse.status}`);
         }
 
         const gastosData = await gastosResponse.json();
         const ingresosData = await ingresosResponse.json();
 
-        console.log('Gastos data:', gastosData);
-        console.log('Ingresos data:', ingresosData);
+        console.log('💰 Gastos data:', gastosData);
+        console.log('💵 Ingresos data:', ingresosData);
 
         setGastos(Array.isArray(gastosData) ? gastosData : []);
         setIngresos(Array.isArray(ingresosData) ? ingresosData : []);
         setDebugInfo('Datos cargados correctamente');
       } catch (error: any) {
-        console.error('Error fetching data:', error);
+        console.error('❌ Error fetching data:', error);
         setError(`Error al cargar los datos: ${error.message}`);
         setDebugInfo(`Error: ${error.message}`);
       } finally {
@@ -154,15 +144,22 @@ export default function StatsPage() {
   // Datos mensuales para gráfico de líneas
   const monthlyData = React.useMemo(() => {
     const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const currentYear = new Date().getFullYear();
     const data: MonthlyData[] = [];
 
     months.forEach((month, index) => {
       const monthGastos = Array.isArray(gastos) ? gastos
-        .filter(g => new Date(g.fecha).getMonth() === index)
+        .filter(g => {
+          const fecha = new Date(g.fecha);
+          return fecha.getMonth() === index && fecha.getFullYear() === currentYear;
+        })
         .reduce((sum, g) => sum + Number(g.monto), 0) : 0;
       
       const monthIngresos = Array.isArray(ingresos) ? ingresos
-        .filter(i => new Date(i.fecha).getMonth() === index)
+        .filter(i => {
+          const fecha = new Date(i.fecha);
+          return fecha.getMonth() === index && fecha.getFullYear() === currentYear;
+        })
         .reduce((sum, i) => sum + Number(i.monto), 0) : 0;
 
       data.push({

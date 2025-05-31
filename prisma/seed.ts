@@ -3,28 +3,52 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  const categorias = [
+  console.log('🌱 Comenzando seed de datos...')
+
+  // Crear categorías por defecto para gastos
+  const categoriasGastos = [
     'Alimentación',
     'Transporte',
+    'Vivienda',
+    'Salud',
     'Entretenimiento',
-    'Facturas',
-    'Otros'
+    'Ropa',
+    'Educación',
+    'Servicios',
+    'Tecnología',
+    'Otros Gastos'
   ]
 
-  for (const categoria of categorias) {
+  // Crear categorías por defecto para ingresos
+  const categoriasIngresos = [
+    'Salario',
+    'Freelance',
+    'Inversiones',
+    'Bonos',
+    'Renta',
+    'Ventas',
+    'Otros Ingresos'
+  ]
+
+  // Combinar todas las categorías
+  const todasCategorias = [...categoriasGastos, ...categoriasIngresos]
+
+  for (const nombreCategoria of todasCategorias) {
     await prisma.categoria.upsert({
-      where: { nombre: categoria },
+      where: { nombre: nombreCategoria },
       update: {},
-      create: { nombre: categoria },
+      create: {
+        nombre: nombreCategoria
+      }
     })
   }
 
-  console.log('Categorías inicializadas correctamente')
+  console.log('✅ Categorías inicializadas correctamente')
 }
 
 main()
   .catch((e) => {
-    console.error(e)
+    console.error('❌ Error en seed:', e)
     process.exit(1)
   })
   .finally(async () => {
