@@ -11,7 +11,8 @@ import {
   ChevronDown,
   Menu,
   X,
-  Squirrel
+  Squirrel,
+  BarChart
 } from 'lucide-react';
 import UserProfile from './UserProfile'; // Importamos el componente UserProfile
 
@@ -47,6 +48,11 @@ const Header = () => {
       icon: <TrendingUp className="w-4 h-4" /> 
     },
     { 
+      name: 'Stats', 
+      href: '/pages/stats', 
+      icon: <BarChart className="w-4 h-4" /> 
+    },
+    { 
       name: 'Butz', 
       href: '/pages/butz', 
       icon: <Squirrel className="w-4 h-4" /> 
@@ -56,6 +62,7 @@ const Header = () => {
       href: '/pages/user', 
       icon: <User className="w-4 h-4" /> 
     },
+    
   ];
 
   return (
