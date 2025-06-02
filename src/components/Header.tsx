@@ -15,6 +15,8 @@ import {
   BarChart
 } from 'lucide-react';
 import UserProfile from './UserProfile'; // Importamos el componente UserProfile
+import { ConnectionStatus } from './ConnectionStatus'; // Importamos el componente ConnectionStatus
+import { OfflineTransactions } from './OfflineTransactions'; // Importamos el componente OfflineTransactions
 
 const Header = () => {
   const pathname = usePathname();
@@ -112,8 +114,10 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* UserProfile - Visible solo en escritorio */}
-          <div className="hidden md:flex items-center">
+          {/* UserProfile, ConnectionStatus y OfflineTransactions - Visible solo en escritorio */}
+          <div className="hidden md:flex items-center space-x-3">
+            <OfflineTransactions />
+            <ConnectionStatus />
             <UserProfile />
           </div>
 
@@ -139,8 +143,12 @@ const Header = () => {
           exit={{ opacity: 0, height: 0 }}
           className="md:hidden bg-gradient-to-br from-purple-900/90 via-violet-800/90 to-emerald-500/90 backdrop-blur-md border-b border-white/10"
         >
-          {/* UserProfile en móvil */}
-          <div className="py-3 px-6 border-b border-white/10">
+          {/* UserProfile, ConnectionStatus y OfflineTransactions en móvil */}
+          <div className="py-3 px-6 border-b border-white/10 flex flex-col space-y-2">
+            <div className="flex gap-2">
+              <OfflineTransactions />
+              <ConnectionStatus />
+            </div>
             <UserProfile />
           </div>
           

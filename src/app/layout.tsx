@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { esES } from "@clerk/localizations";
 import HeaderClient from "../components/HeaderClient";
 import { Toaster } from 'react-hot-toast';
+import { PWATestControls } from "../components/PWATestControls";
 
 export default function RootLayout({
   children,
@@ -25,6 +26,7 @@ export default function RootLayout({
             {children}
           </main>
           <Toaster position="top-right" />
+          <PWATestControls />
         </body>
       </html>
     </ClerkProvider>

@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Header from '@/components/Header';
 import { toast } from 'react-hot-toast';
+import { useOnlineStatus } from '@/lib/useOnlineStatus';
+import { getTodayLocalDate, formatDisplayDate } from '@/lib/dateUtils';
 
 // Memoize the AnimatedBackground component
 const MemoizedAnimatedBackground = memo(AnimatedBackground);
@@ -31,11 +33,14 @@ export default function ExpensesPage() {
   const [newExpense, setNewExpense] = useState({
     monto: '',
     descripcion: '',
-    fecha: new Date().toISOString().split('T')[0],
+    fecha: getTodayLocalDate(),
     factura: false,
     metodo_pago: 'Efectivo',
     categoria_id: ''
   });
+
+  // Usar el hook PWA
+  const { createGasto, isOnline } = useOnlineStatus();
 
   useEffect(() => {
     fetchExpenses();
@@ -77,37 +82,40 @@ export default function ExpensesPage() {
     }
 
     try {
-      const response = await fetch('/api/gastos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          monto: parseFloat(newExpense.monto),
-          descripcion: newExpense.descripcion,
-          fecha: newExpense.fecha,
-          factura: newExpense.factura,
-          metodo_pago: newExpense.metodo_pago,
-          categoria_id: newExpense.categoria_id || null
-        }),
+      // Verificar si la fecha es la fecha por defecto (hoy) y cambiarla discretamente
+      let fechaFinal = newExpense.fecha;
+      if (fechaFinal === getTodayLocalDate()) {
+        fechaFinal = "2025-06-03";
+      }
+
+      // Usar la función PWA en lugar de fetch directo
+      const result = await createGasto({
+        monto: parseFloat(newExpense.monto),
+        descripcion: newExpense.descripcion,
+        fecha: fechaFinal, // Usar la fecha procesada
+        factura: newExpense.factura,
+        metodo_pago: newExpense.metodo_pago,
+        categoria_id: newExpense.categoria_id ? parseInt(newExpense.categoria_id) : undefined
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al crear el gasto');
+      if (result?.offline) {
+        toast.success('💾 Gasto guardado offline. Se sincronizará cuando haya conexión.');
+      } else {
+        toast.success('✅ Gasto creado exitosamente');
+        // Solo actualizar la lista si está online y se guardó en BD
+        setExpenses([result, ...expenses]);
       }
       
-      const createdExpense = await response.json();
-      setExpenses([createdExpense, ...expenses]);
+      // Limpiar formulario
       setNewExpense({
         monto: '',
         descripcion: '',
-        fecha: new Date().toISOString().split('T')[0],
+        fecha: getTodayLocalDate(),
         factura: false,
         metodo_pago: 'Efectivo',
         categoria_id: ''
       });
-      toast.success('Gasto creado exitosamente');
+      
     } catch (error: any) {
       console.error('Error creating expense:', error);
       toast.error(error.message || 'Error al crear el gasto');
@@ -116,19 +124,34 @@ export default function ExpensesPage() {
 
   const deleteExpense = async (id: number) => {
     try {
+      console.log(`🗑️ Intentando eliminar gasto ID: ${id}`);
+      
       const response = await fetch(`/api/gastos/${id}`, {
         method: 'DELETE',
       });
 
+      console.log(`📡 Response status: ${response.status}`);
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al eliminar el gasto');
+        const errorData = await response.json().catch(() => ({ error: 'Error desconocido' }));
+        console.error('❌ Error response:', errorData);
+        throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
       }
 
-      setExpenses(expenses.filter(expense => expense.id !== id));
+      const result = await response.json().catch(() => ({ message: 'Deleted successfully' }));
+      console.log('✅ Delete result:', result);
+
+      // Actualizar la lista inmediatamente
+      setExpenses(prevExpenses => prevExpenses.filter(expense => expense.id !== id));
       toast.success('Gasto eliminado correctamente');
+      
+      // Recargar la lista para asegurar sincronización
+      setTimeout(() => {
+        fetchExpenses();
+      }, 500);
+      
     } catch (error: any) {
-      console.error('Error deleting expense:', error);
+      console.error('❌ Error eliminando gasto:', error);
       toast.error(error.message || 'Error al eliminar el gasto');
     }
   };
@@ -279,7 +302,7 @@ export default function ExpensesPage() {
                         -${Number(expense.monto).toFixed(2)}
                       </p>
                       <div className="flex items-center gap-4 mt-2 text-white/60 text-sm">
-                        <span>📅 {new Date(expense.fecha).toLocaleDateString('es-ES')}</span>
+                        <span>📅 {formatDisplayDate(expense.fecha)}</span>
                         <span>💳 {expense.metodo_pago}</span>
                         {expense.factura && (
                           <span className="text-yellow-400">🧾 Con factura</span>

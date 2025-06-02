@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs/server';
 import { PrismaClient } from '@prisma/client';
+import { stringToDateForDB } from '@/lib/dateUtils';
 
 const prisma = new PrismaClient();
 
@@ -120,11 +121,14 @@ export async function POST(request: Request) {
     }
 
     console.log('💰 Creando gasto...');
+    console.log('📅 Fecha original:', fecha);
+    console.log('📅 Fecha convertida:', stringToDateForDB(fecha));
+    
     const gasto = await prisma.gasto.create({
       data: {
         usuario_id: dbUser.id,
         monto: parseFloat(monto),
-        fecha: new Date(fecha),
+        fecha: stringToDateForDB(fecha),
         descripcion: descripcion || null,
         categoria_id: categoria_id ? parseInt(categoria_id) : null,
         factura: factura || false,

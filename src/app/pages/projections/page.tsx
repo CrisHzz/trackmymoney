@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Header from '@/components/Header';
 import { toast } from 'react-hot-toast';
+import { formatDisplayDate } from '@/lib/dateUtils';
 
 // Memoize the AnimatedBackground component
 const MemoizedAnimatedBackground = memo(AnimatedBackground);
@@ -87,11 +88,7 @@ export default function ProjectionsPage() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-MX', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
+    return formatDisplayDate(dateString);
   };
 
   return (

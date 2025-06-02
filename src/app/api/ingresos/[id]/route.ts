@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { currentUser } from '@clerk/nextjs/server';
 import { PrismaClient } from '@prisma/client';
+import { stringToDateForDB } from '@/lib/dateUtils';
 
 const prisma = new PrismaClient();
 
@@ -67,13 +68,13 @@ export async function PUT(
       },
       data: {
         monto,
-        fecha: new Date(fecha),
+        fecha: stringToDateForDB(fecha),
         descripcion,
         categoria_id: categoria_id ? parseInt(categoria_id) : null,
         tipo_ingreso,
         recurrente,
         frecuencia,
-        fecha_fin: fecha_fin ? new Date(fecha_fin) : null
+        fecha_fin: fecha_fin ? stringToDateForDB(fecha_fin) : null
       }
     });
 

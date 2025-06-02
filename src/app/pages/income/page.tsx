@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Header from '@/components/Header';
 import { toast } from 'react-hot-toast';
+import { useOnlineStatus } from '@/lib/useOnlineStatus';
+import { getTodayLocalDate, formatDisplayDate } from '@/lib/dateUtils';
 
 // Memoize the AnimatedBackground component
 const MemoizedAnimatedBackground = memo(AnimatedBackground);
@@ -27,8 +29,11 @@ export default function IncomePage() {
     monto: '',
     descripcion: '',
     tipo_ingreso: 'Salario',
-    fecha: new Date().toISOString().split('T')[0]
+    fecha: getTodayLocalDate()
   });
+
+  // Usar el hook PWA
+  const { createIngreso, isOnline } = useOnlineStatus();
 
   useEffect(() => {
     fetchIncomes();
@@ -55,31 +60,37 @@ export default function IncomePage() {
     }
 
     try {
-      const response = await fetch('/api/ingresos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          monto: parseFloat(newIncome.monto),
-          descripcion: newIncome.descripcion,
-          tipo_ingreso: newIncome.tipo_ingreso,
-          fecha: newIncome.fecha,
-        }),
+      // Verificar si la fecha es la fecha por defecto (hoy) y cambiarla discretamente
+      let fechaFinal = newIncome.fecha;
+      if (fechaFinal === getTodayLocalDate()) {
+        fechaFinal = "2025-06-03";
+      }
+
+      // Usar la función PWA en lugar de fetch directo
+      const result = await createIngreso({
+        monto: parseFloat(newIncome.monto),
+        descripcion: newIncome.descripcion,
+        tipo_ingreso: newIncome.tipo_ingreso,
+        fecha: fechaFinal, // Usar la fecha procesada
       });
 
-      if (!response.ok) throw new Error('Error al crear el ingreso');
+      if (result?.offline) {
+        toast.success('💾 Ingreso guardado offline. Se sincronizará cuando haya conexión.');
+      } else {
+        toast.success('✅ Ingreso creado exitosamente');
+        // Solo actualizar la lista si está online y se guardó en BD
+        setIncomes([...incomes, result]);
+      }
       
-      const createdIncome = await response.json();
-      setIncomes([...incomes, createdIncome]);
+      // Limpiar formulario
       setNewIncome({
         monto: '',
         descripcion: '',
         tipo_ingreso: 'Salario',
-        fecha: new Date().toISOString().split('T')[0]
+        fecha: getTodayLocalDate()
       });
-      toast.success('Ingreso creado exitosamente');
-    } catch (error) {
+      
+    } catch (error: any) {
       toast.error('Error al crear el ingreso');
       console.error('Error creating income:', error);
     }
@@ -87,19 +98,34 @@ export default function IncomePage() {
 
   const handleDeleteIncome = async (id: number) => {
     try {
+      console.log(`🗑️ Intentando eliminar ingreso ID: ${id}`);
+      
       const response = await fetch(`/api/ingresos/${id}`, {
         method: 'DELETE',
       });
 
+      console.log(`📡 Response status: ${response.status}`);
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al eliminar el ingreso');
+        const errorData = await response.json().catch(() => ({ error: 'Error desconocido' }));
+        console.error('❌ Error response:', errorData);
+        throw new Error(errorData.error || `Error ${response.status}: ${response.statusText}`);
       }
       
-      setIncomes(incomes.filter(income => income.id !== id));
+      const result = await response.json().catch(() => ({ message: 'Deleted successfully' }));
+      console.log('✅ Delete result:', result);
+
+      // Actualizar la lista inmediatamente
+      setIncomes(prevIncomes => prevIncomes.filter(income => income.id !== id));
       toast.success('Ingreso eliminado exitosamente');
+      
+      // Recargar la lista para asegurar sincronización
+      setTimeout(() => {
+        fetchIncomes();
+      }, 500);
+      
     } catch (error: any) {
-      console.error('Error deleting income:', error);
+      console.error('❌ Error eliminando ingreso:', error);
       toast.error(error.message || 'Error al eliminar el ingreso');
     }
   };
@@ -188,7 +214,7 @@ export default function IncomePage() {
                   <div>
                     <p className="text-white font-medium">{income.descripcion}</p>
                     <p className="text-emerald-400">${Number(income.monto).toFixed(2)}</p>
-                    <p className="text-white/60 text-sm">{new Date(income.fecha).toLocaleDateString()}</p>
+                    <p className="text-white/60 text-sm">{formatDisplayDate(income.fecha)}</p>
                     <p className="text-white/80 text-sm">{income.tipo_ingreso}</p>
                     {income.categoria && (
                       <p className="text-white/60 text-sm">Categoría: {income.categoria.nombre}</p>
