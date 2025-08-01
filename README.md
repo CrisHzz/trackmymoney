@@ -19,7 +19,7 @@
 - **💵 Control de Ingresos**: Seguimiento de ingresos regulares e irregulares
 - **📈 Proyecciones Financieras**: Análisis y predicciones de flujo de efectivo
 - **📱 Funcionalidad Offline**: Sincronización automática cuando hay conexión
-- **🔍 Búsqueda Avanzada**: Motor de búsqueda con Elasticsearch
+- **🔍 Búsqueda Avanzada**: Filtros y búsqueda local
 - **📊 Visualizaciones**: Gráficos interactivos con Recharts
 - **🔐 Autenticación Segura**: Sistema de usuarios con Clerk
 - **🎨 UI/UX Moderna**: Interfaz elegante con animaciones fluidas
@@ -41,8 +41,6 @@
 #### Backend & Base de Datos
 - **Prisma 6.8.2**: ORM moderno para TypeScript
 - **PostgreSQL**: Base de datos relacional robusta
-- **Elasticsearch 8.12.1**: Motor de búsqueda y análisis
-- **Kibana**: Visualización de datos de Elasticsearch
 
 #### Autenticación & Seguridad
 - **Clerk**: Autenticación y gestión de usuarios
@@ -136,14 +134,7 @@ Notificacion {
    npm run db:seed
    ```
 
-5. **Iniciar Elasticsearch** (opcional)
-   ```bash
-   # Usando Docker
-   docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:8.12.1
-   
-   # O ejecutar el script de configuración
-   node scripts/start-elasticsearch.js
-   ```
+
 
 6. **Ejecutar la aplicación**
    ```bash
@@ -168,8 +159,6 @@ La aplicación estará disponible en [http://localhost:3000](http://localhost:30
 Esto iniciará automáticamente:
 - **Aplicación Next.js** en puerto 3000
 - **PostgreSQL** en puerto 5432
-- **Elasticsearch** en puerto 9200
-- **Kibana** en puerto 5601
 
 ### Opción 3: Imagen Docker Precompilada
 
@@ -214,11 +203,10 @@ docker run -p 3000:3000 davshaw/trackmymoney
 - Alertas y notificaciones
 - Categorización de objetivos
 
-### 🔍 Búsqueda Avanzada
-- Motor de búsqueda con Elasticsearch
+### 🔍 Búsqueda y Filtros
 - Filtros por fecha, categoría, monto
-- Búsqueda semántica
-- Historial de búsquedas
+- Búsqueda local en transacciones
+- Historial de búsquedas recientes
 
 ### 📱 Funcionalidad Offline & PWA
 - **Progressive Web App (PWA)** con instalación nativa
@@ -303,7 +291,6 @@ La aplicación incluye herramientas especiales para probar la funcionalidad PWA 
 
 La documentación interactiva de la API está disponible en:
 - **Swagger UI**: [http://localhost:3000/docs](http://localhost:3000/docs)
-- **Kibana**: [http://localhost:5601](http://localhost:5601) (para análisis de Elasticsearch)
 
 ## 🎨 Características de UI/UX
 
@@ -337,9 +324,6 @@ La documentación interactiva de la API está disponible en:
 # Base de datos
 DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/trackmymoney"
 
-# Elasticsearch
-ELASTICSEARCH_URL="http://localhost:9200"
-
 # Clerk (Autenticación)
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
 CLERK_SECRET_KEY="sk_test_..."
@@ -349,28 +333,7 @@ NODE_ENV="development"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
-### Configuración de Elasticsearch
 
-```javascript
-// scripts/start-elasticsearch.js
-const { Client } = require('@elastic/elasticsearch');
-const client = new Client({ node: 'http://localhost:9200' });
-
-// Crear índices y mappings
-await client.indices.create({
-  index: 'transactions',
-  mappings: {
-    properties: {
-      amount: { type: 'float' },
-      description: { type: 'text' },
-      category: { type: 'keyword' },
-      type: { type: 'keyword' },
-      date: { type: 'date' },
-      userId: { type: 'keyword' }
-    }
-  }
-});
-```
 
 ## 🤝 Contribución
 
@@ -394,7 +357,6 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 - [Next.js](https://nextjs.org/) - Framework React
 - [Prisma](https://www.prisma.io/) - ORM moderno
-- [Elasticsearch](https://www.elastic.co/) - Motor de búsqueda
 - [Clerk](https://clerk.com/) - Autenticación
 - [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
 - [Framer Motion](https://www.framer.com/motion/) - Animaciones
