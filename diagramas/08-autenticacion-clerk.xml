@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc130" type="device">
+  <diagram name="Autenticación Clerk" id="autenticacion-clerk">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="start" value="Usuario accede a la app" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="middleware" value="Middleware verifica&lt;br/&gt;clerkMiddleware()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="check-route" value="¿Ruta pública?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="240" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="allow-public" value="Permitir acceso" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="600" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="check-auth" value="¿Usuario autenticado?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="redirect-signin" value="Redirigir a sign-in" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="120" y="340" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="signin-page" value="Página Sign-In&lt;br/&gt;ClerkSignIn component" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="120" y="440" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="clerk-auth" value="Proceso Clerk&lt;br/&gt;• Email/password&lt;br/&gt;• OAuth&lt;br/&gt;• MFA" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="540" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="success-auth" value="Auth exitoso" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="120" y="660" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="access-app" value="Acceso a aplicación&lt;br/&gt;currentUser() disponible" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="440" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="api-protection" value="APIs protegidas&lt;br/&gt;currentUser() en routes" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="540" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-button" value="UserButton component&lt;br/&gt;• Profile&lt;br/&gt;• Sign out" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="550" y="540" width="140" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="end" value="Usuario autenticado" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="660" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="start" target="middleware" />
+        <mxCell edge="1" parent="1" source="middleware" target="check-route" />
+        <mxCell edge="1" parent="1" source="check-route" target="allow-public" />
+        <mxCell edge="1" parent="1" source="check-route" target="check-auth" />
+        <mxCell edge="1" parent="1" source="check-auth" target="redirect-signin" />
+        <mxCell edge="1" parent="1" source="check-auth" target="access-app" />
+        <mxCell edge="1" parent="1" source="redirect-signin" target="signin-page" />
+        <mxCell edge="1" parent="1" source="signin-page" target="clerk-auth" />
+        <mxCell edge="1" parent="1" source="clerk-auth" target="success-auth" />
+        <mxCell edge="1" parent="1" source="success-auth" target="end" />
+        <mxCell edge="1" parent="1" source="access-app" target="api-protection" />
+        <mxCell edge="1" parent="1" source="access-app" target="user-button" />
+        <mxCell edge="1" parent="1" source="api-protection" target="end" />
+        <mxCell edge="1" parent="1" source="user-button" target="end" />
+        
+        <mxCell id="yes-public" value="SÍ" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="260" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-public" value="NO" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="310" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-auth" value="NO" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="270" y="360" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-auth" value="SÍ" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="410" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• Layout: src/app/layout.tsx (1-34)&lt;br/&gt;• Middleware: src/middleware.ts (1-27)&lt;br/&gt;• Sign-in: src/app/pages/sign-in/[[...sign-in]]/page.tsx&lt;br/&gt;• UserButton: src/components/UserButton.tsx" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="250" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+

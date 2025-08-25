@@ -35,13 +35,4 @@ jest.mock('@prisma/client', () => ({
       create: jest.fn(),
     },
   })),
-}))
-
-// Mock para Elasticsearch
-jest.mock('@/lib/elasticsearch', () => ({
-  elasticsearchClient: {
-    index: jest.fn(),
-    search: jest.fn(),
-    delete: jest.fn(),
-  },
 })) 

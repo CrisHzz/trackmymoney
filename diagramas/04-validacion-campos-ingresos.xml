@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc126" type="device">
+  <diagram name="Validación Campos Ingresos" id="validacion-campos-ingresos">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Inicio -->
+        <mxCell id="start" value="Inicio: Usuario en formulario ingresos" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Llenar formulario -->
+        <mxCell id="form" value="Usuario llena formulario&lt;br/&gt;(monto, descripción, tipo_ingreso)" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Validación frontend -->
+        <mxCell id="frontend-validation" value="Validación Frontend&lt;br/&gt;¿monto && descripción?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="284" y="240" width="260" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Error frontend -->
+        <mxCell id="frontend-error" value="Error Frontend&lt;br/&gt;'Por favor completa todos los campos'" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="250" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Envío API -->
+        <mxCell id="api-call" value="Envío a API&lt;br/&gt;POST /api/ingresos" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="314" y="360" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Validación backend -->
+        <mxCell id="backend-validation" value="Validación Backend&lt;br/&gt;¿monto && fecha && tipo_ingreso?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="274" y="460" width="280" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Error backend -->
+        <mxCell id="backend-error" value="Error 400&lt;br/&gt;'Monto, fecha y tipo de ingreso son requeridos'" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="470" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Validación auth -->
+        <mxCell id="auth-validation" value="Validación Autenticación&lt;br/&gt;¿Usuario autenticado?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="284" y="580" width="260" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Error auth -->
+        <mxCell id="auth-error" value="Error 401&lt;br/&gt;'Unauthorized'" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="590" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Validación categoría -->
+        <mxCell id="category-validation" value="¿Categoría válida?&lt;br/&gt;(si se proporciona)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="284" y="700" width="260" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Error categoría -->
+        <mxCell id="category-error" value="Error 400&lt;br/&gt;'Categoría no válida'" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="710" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Crear ingreso -->
+        <mxCell id="create-income" value="Crear ingreso en BD&lt;br/&gt;prisma.ingreso.create()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="314" y="820" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Éxito -->
+        <mxCell id="success" value="Éxito: Ingreso creado&lt;br/&gt;Status 200" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="920" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Fin -->
+        <mxCell id="end" value="Fin: Respuesta enviada" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="1020" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexiones principales -->
+        <mxCell edge="1" parent="1" source="start" target="form">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="form" target="frontend-validation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="frontend-validation" target="frontend-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="frontend-validation" target="api-call">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="api-call" target="backend-validation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="backend-validation" target="backend-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="backend-validation" target="auth-validation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="auth-validation" target="auth-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="auth-validation" target="category-validation">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="category-validation" target="category-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="category-validation" target="create-income">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="create-income" target="success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="success" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Etiquetas de decisión -->
+        <mxCell id="no-frontend" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="550" y="260" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-frontend" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="330" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-backend" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="480" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-backend" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="550" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-auth" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="550" y="600" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-auth" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="670" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-category" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="550" y="720" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-category" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="790" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Archivos de código -->
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• API Backend: src/app/api/ingresos/route.ts (92-97)&lt;br/&gt;• Frontend: src/app/pages/income/page.tsx (56-60)&lt;br/&gt;• Tests: src/app/api/ingresos/__tests__/route.test.ts (165-184)&lt;br/&gt;• Utils: src/lib/__tests__/dataValidations.test.ts (7-51)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

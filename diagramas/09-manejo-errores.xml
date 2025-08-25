@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc131" type="device">
+  <diagram name="Manejo de Errores" id="manejo-errores">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="start" value="Operación iniciada" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="try-operation" value="Ejecutar operación&lt;br/&gt;try { ... }" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="check-error" value="¿Error ocurrido?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="240" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="success-path" value="Operación exitosa" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="600" y="240" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="catch-error" value="Capturar error&lt;br/&gt;catch (error) { ... }" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="314" y="340" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="log-error" value="Log del error&lt;br/&gt;console.error()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="440" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="classify-error" value="Clasificar error&lt;br/&gt;• Network&lt;br/&gt;• Validation&lt;br/&gt;• Auth&lt;br/&gt;• Database" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="440" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-message" value="Mensaje al usuario&lt;br/&gt;toast.error()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="530" y="440" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="check-recovery" value="¿Recuperación posible?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="560" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="retry-operation" value="Reintentar operación&lt;br/&gt;o fallback offline" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="150" y="660" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="graceful-degradation" value="Degradación elegante&lt;br/&gt;• Mostrar datos cache&lt;br/&gt;• Deshabilitar función" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="334" y="660" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="report-error" value="Reportar error&lt;br/&gt;(si es crítico)" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="530" y="660" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="end" value="Fin: Error manejado" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="780" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="start" target="try-operation" />
+        <mxCell edge="1" parent="1" source="try-operation" target="check-error" />
+        <mxCell edge="1" parent="1" source="check-error" target="success-path" />
+        <mxCell edge="1" parent="1" source="check-error" target="catch-error" />
+        <mxCell edge="1" parent="1" source="catch-error" target="log-error" />
+        <mxCell edge="1" parent="1" source="catch-error" target="classify-error" />
+        <mxCell edge="1" parent="1" source="catch-error" target="user-message" />
+        <mxCell edge="1" parent="1" source="log-error" target="check-recovery" />
+        <mxCell edge="1" parent="1" source="classify-error" target="check-recovery" />
+        <mxCell edge="1" parent="1" source="user-message" target="check-recovery" />
+        <mxCell edge="1" parent="1" source="check-recovery" target="retry-operation" />
+        <mxCell edge="1" parent="1" source="check-recovery" target="graceful-degradation" />
+        <mxCell edge="1" parent="1" source="check-recovery" target="report-error" />
+        <mxCell edge="1" parent="1" source="retry-operation" target="end" />
+        <mxCell edge="1" parent="1" source="graceful-degradation" target="end" />
+        <mxCell edge="1" parent="1" source="report-error" target="end" />
+        
+        <mxCell id="no-error" value="NO" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="540" y="260" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-error" value="SÍ" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="310" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-recovery" value="SÍ" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="270" y="630" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="partial-recovery" value="PARCIAL" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="630" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-recovery" value="NO" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="530" y="630" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• API Errors: src/app/api/gastos/route.ts (56-62, 144-151)&lt;br/&gt;• Frontend: src/app/pages/expenses/page.tsx (119-122)&lt;br/&gt;• Offline: src/lib/useOnlineStatus.ts (180-190)&lt;br/&gt;• Tests: src/app/api/gastos/__tests__/route.test.ts (204-243)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+

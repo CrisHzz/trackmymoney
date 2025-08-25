@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc128" type="device">
+  <diagram name="Eliminación Transacciones" id="eliminacion-transacciones">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Inicio -->
+        <mxCell id="start" value="Inicio: Usuario hace clic&lt;br/&gt;en eliminar transacción" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Confirmar eliminación -->
+        <mxCell id="confirm" value="¿Confirmar eliminación?&lt;br/&gt;(prompt/modal)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="140" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Cancelar -->
+        <mxCell id="cancel" value="Cancelar operación" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="150" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Llamada DELETE -->
+        <mxCell id="delete-call" value="Llamada DELETE&lt;br/&gt;DELETE /api/{tipo}/[id]" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="314" y="260" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Validar auth -->
+        <mxCell id="validate-auth" value="¿Usuario autenticado?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="360" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Error auth -->
+        <mxCell id="auth-error" value="Error 401&lt;br/&gt;Unauthorized" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="360" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Buscar usuario -->
+        <mxCell id="find-user" value="Buscar usuario en BD&lt;br/&gt;prisma.usuario.findFirst()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="314" y="460" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Usuario existe -->
+        <mxCell id="user-exists" value="¿Usuario existe?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="560" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Error usuario -->
+        <mxCell id="user-error" value="Error 404&lt;br/&gt;User not found" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Verificar propiedad -->
+        <mxCell id="check-ownership" value="Verificar propiedad&lt;br/&gt;(usuario_id match)" style="rect;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="314" y="660" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Eliminar de BD -->
+        <mxCell id="delete-db" value="Eliminar de BD&lt;br/&gt;prisma.{tipo}.delete()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="314" y="760" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- ¿Error BD? -->
+        <mxCell id="db-error-check" value="¿Error en BD?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="860" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Error BD -->
+        <mxCell id="db-error" value="Error 500&lt;br/&gt;Database error" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="860" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Eliminar de Elasticsearch -->
+        <mxCell id="delete-search" value="Eliminar de Elasticsearch&lt;br/&gt;deleteTransaction()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="960" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Actualizar UI -->
+        <mxCell id="update-ui" value="Actualizar UI&lt;br/&gt;setIncomes/setExpenses filter" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="1060" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Mensaje éxito -->
+        <mxCell id="success-message" value="Mensaje de éxito&lt;br/&gt;toast.success()" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="1160" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Recargar lista -->
+        <mxCell id="reload-list" value="Recargar lista&lt;br/&gt;fetchIncomes/fetchExpenses" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="1260" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Fin -->
+        <mxCell id="end" value="Fin: Transacción eliminada" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="1360" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexiones principales -->
+        <mxCell edge="1" parent="1" source="start" target="confirm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="confirm" target="cancel">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="confirm" target="delete-call">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="delete-call" target="validate-auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="validate-auth" target="auth-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="validate-auth" target="find-user">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="find-user" target="user-exists">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="user-exists" target="user-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="user-exists" target="check-ownership">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="check-ownership" target="delete-db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="delete-db" target="db-error-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="db-error-check" target="db-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="db-error-check" target="delete-search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="delete-search" target="update-ui">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="update-ui" target="success-message">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="success-message" target="reload-list">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="reload-list" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Etiquetas de decisión -->
+        <mxCell id="no-confirm" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="170" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-confirm" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="230" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-auth" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="380" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-auth" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="430" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-user" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="580" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-user" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="630" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-db-error" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="880" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-db-error" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="930" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Archivos de código -->
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• API Gastos: src/app/api/gastos/[id]/route.ts (96-140)&lt;br/&gt;• API Ingresos: src/app/api/ingresos/[id]/route.ts (87-132)&lt;br/&gt;• Frontend: src/app/pages/income/page.tsx (99-131)&lt;br/&gt;• Elasticsearch: src/lib/transactions.ts (131-142)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+

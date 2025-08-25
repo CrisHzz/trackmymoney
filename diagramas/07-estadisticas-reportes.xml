@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc129" type="device">
+  <diagram name="Estadísticas y Reportes" id="estadisticas-reportes">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="start" value="Inicio: Usuario accede&lt;br/&gt;página de estadísticas" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="fetch-data" value="Cargar datos&lt;br/&gt;fetch('/api/gastos')&lt;br/&gt;fetch('/api/ingresos')" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="140" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="process-data" value="Procesar datos&lt;br/&gt;• Calcular totales&lt;br/&gt;• Agrupar por categorías&lt;br/&gt;• Crear series temporales" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="260" width="200" height="100" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="render-summary" value="Renderizar resumen&lt;br/&gt;• Total ingresos&lt;br/&gt;• Total gastos&lt;br/&gt;• Balance" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="120" y="400" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="render-charts" value="Renderizar gráficos&lt;br/&gt;• Pie chart categorías&lt;br/&gt;• Bar chart mensual&lt;br/&gt;• Line chart temporal" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="550" y="400" width="160" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="interactive" value="Filtros interactivos&lt;br/&gt;• Por fecha&lt;br/&gt;• Por categoría&lt;br/&gt;• Por tipo" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="520" width="200" height="80" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="end" value="Fin: Estadísticas mostradas" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="640" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell edge="1" parent="1" source="start" target="fetch-data" />
+        <mxCell edge="1" parent="1" source="fetch-data" target="process-data" />
+        <mxCell edge="1" parent="1" source="process-data" target="render-summary" />
+        <mxCell edge="1" parent="1" source="process-data" target="render-charts" />
+        <mxCell edge="1" parent="1" source="render-summary" target="interactive" />
+        <mxCell edge="1" parent="1" source="render-charts" target="interactive" />
+        <mxCell edge="1" parent="1" source="interactive" target="end" />
+        
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• Principal: src/app/pages/stats/page.tsx (44-462)&lt;br/&gt;• Proyecciones: src/app/pages/projections/page.tsx&lt;br/&gt;• Resumen: src/app/pages/expenses/page.tsx (330-341)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="250" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+

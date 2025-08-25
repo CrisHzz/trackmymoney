@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc125" type="device">
+  <diagram name="Sincronización Offline" id="sincronizacion-offline">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Inicio -->
+        <mxCell id="start" value="Trigger: Detectar conexión&lt;br/&gt;o clic manual sync" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Verificar online -->
+        <mxCell id="check-online" value="¿Está online?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="140" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Salir si offline -->
+        <mxCell id="exit-offline" value="Salir: Sin conexión" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="600" y="140" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Obtener datos offline -->
+        <mxCell id="get-offline" value="Obtener datos offline&lt;br/&gt;getAllOfflineData()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="240" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Iterar gastos -->
+        <mxCell id="iterate-gastos" value="Para cada gasto offline" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="150" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Iterar ingresos -->
+        <mxCell id="iterate-ingresos" value="Para cada ingreso offline" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="480" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Enviar gasto -->
+        <mxCell id="send-gasto" value="POST /api/gastos&lt;br/&gt;(datos del gasto)" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="150" y="440" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Enviar ingreso -->
+        <mxCell id="send-ingreso" value="POST /api/ingresos&lt;br/&gt;(datos del ingreso)" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="480" y="440" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Verificar éxito gasto -->
+        <mxCell id="success-gasto" value="¿Respuesta OK?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="150" y="540" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Verificar éxito ingreso -->
+        <mxCell id="success-ingreso" value="¿Respuesta OK?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="480" y="540" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Eliminar gasto local -->
+        <mxCell id="remove-gasto" value="Eliminar de localStorage&lt;br/&gt;removeOfflineGasto()" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="150" y="640" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Eliminar ingreso local -->
+        <mxCell id="remove-ingreso" value="Eliminar de localStorage&lt;br/&gt;removeOfflineIngreso()" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="480" y="640" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Log error gasto -->
+        <mxCell id="log-error-gasto" value="Log error&lt;br/&gt;console.error()" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="40" y="640" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Log error ingreso -->
+        <mxCell id="log-error-ingreso" value="Log error&lt;br/&gt;console.error()" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="680" y="640" width="80" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Actualizar timestamp -->
+        <mxCell id="update-timestamp" value="Actualizar timestamp sync&lt;br/&gt;setLastSyncTimestamp()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="314" y="740" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Actualizar contador -->
+        <mxCell id="update-counter" value="Actualizar contador UI&lt;br/&gt;updatePendingCount()" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="840" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Fin -->
+        <mxCell id="end" value="Fin: Sincronización completa" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="940" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexiones principales -->
+        <mxCell edge="1" parent="1" source="start" target="check-online">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="check-online" target="exit-offline">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="check-online" target="get-offline">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="get-offline" target="iterate-gastos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="get-offline" target="iterate-ingresos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="iterate-gastos" target="send-gasto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="iterate-ingresos" target="send-ingreso">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="send-gasto" target="success-gasto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="send-ingreso" target="success-ingreso">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="success-gasto" target="remove-gasto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="success-gasto" target="log-error-gasto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="success-ingreso" target="remove-ingreso">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="success-ingreso" target="log-error-ingreso">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="remove-gasto" target="update-timestamp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="remove-ingreso" target="update-timestamp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="update-timestamp" target="update-counter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="update-counter" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Etiquetas -->
+        <mxCell id="no-online" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="540" y="160" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-online" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="210" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ok-gasto" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="230" y="610" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="error-gasto" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="610" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ok-ingreso" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="560" y="610" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="error-ingreso" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="610" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Archivos de código -->
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• Sync Function: src/lib/useOnlineStatus.ts (64-142)&lt;br/&gt;• Storage Utils: src/lib/offlineStorage.ts (83-101)&lt;br/&gt;• UI Component: src/components/OfflineTransactions.tsx (14-17)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="250" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+

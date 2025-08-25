@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { NextRequest } from 'next/server';
 import { GET, PUT, DELETE } from '../route';
 import { currentUser } from '@clerk/nextjs/server';

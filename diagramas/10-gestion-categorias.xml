@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc132" type="device">
+  <diagram name="Gestión Categorías" id="gestion-categorias">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <mxCell id="start" value="Usuario gestiona categorías" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="load-categories" value="Cargar categorías&lt;br/&gt;GET /api/categorias" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="show-list" value="Mostrar lista&lt;br/&gt;de categorías" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="240" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="user-action" value="¿Qué acción?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="340" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Crear categoría -->
+        <mxCell id="create-category" value="Crear nueva categoría&lt;br/&gt;POST /api/categorias" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="450" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="validate-name" value="Validar nombre único" style="rect;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="550" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="save-category" value="Guardar en BD&lt;br/&gt;prisma.categoria.create()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="650" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Editar categoría -->
+        <mxCell id="edit-category" value="Editar categoría&lt;br/&gt;PUT /api/categorias/[id]" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="334" y="450" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-name" value="Actualizar nombre" style="rect;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="334" y="550" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-category" value="Actualizar en BD&lt;br/&gt;prisma.categoria.update()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="334" y="650" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Eliminar categoría -->
+        <mxCell id="delete-category" value="Eliminar categoría" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="588" y="450" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="check-usage" value="¿Categoría en uso?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="588" y="550" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="prevent-delete" value="Prevenir eliminación&lt;br/&gt;Error: En uso" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="750" y="650" width="140" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="safe-delete" value="Eliminar de BD&lt;br/&gt;prisma.categoria.delete()" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="588" y="650" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Asignar a transacción -->
+        <mxCell id="assign-transaction" value="Asignar a transacción" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="200" y="750" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="validate-category" value="Validar categoría existe" style="rect;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="400" y="750" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="update-transaction" value="Actualizar transacción" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="314" y="850" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="success" value="Operación exitosa" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="950" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="end" value="Fin: Categorías actualizadas" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="1050" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexiones principales -->
+        <mxCell edge="1" parent="1" source="start" target="load-categories" />
+        <mxCell edge="1" parent="1" source="load-categories" target="show-list" />
+        <mxCell edge="1" parent="1" source="show-list" target="user-action" />
+        
+        <mxCell edge="1" parent="1" source="user-action" target="create-category" />
+        <mxCell edge="1" parent="1" source="create-category" target="validate-name" />
+        <mxCell edge="1" parent="1" source="validate-name" target="save-category" />
+        
+        <mxCell edge="1" parent="1" source="user-action" target="edit-category" />
+        <mxCell edge="1" parent="1" source="edit-category" target="update-name" />
+        <mxCell edge="1" parent="1" source="update-name" target="update-category" />
+        
+        <mxCell edge="1" parent="1" source="user-action" target="delete-category" />
+        <mxCell edge="1" parent="1" source="delete-category" target="check-usage" />
+        <mxCell edge="1" parent="1" source="check-usage" target="prevent-delete" />
+        <mxCell edge="1" parent="1" source="check-usage" target="safe-delete" />
+        
+        <mxCell edge="1" parent="1" source="save-category" target="assign-transaction" />
+        <mxCell edge="1" parent="1" source="update-category" target="validate-category" />
+        <mxCell edge="1" parent="1" source="safe-delete" target="validate-category" />
+        
+        <mxCell edge="1" parent="1" source="assign-transaction" target="validate-category" />
+        <mxCell edge="1" parent="1" source="validate-category" target="update-transaction" />
+        <mxCell edge="1" parent="1" source="update-transaction" target="success" />
+        <mxCell edge="1" parent="1" source="success" target="end" />
+        
+        <!-- Etiquetas -->
+        <mxCell id="create-label" value="CREAR" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="edit-label" value="EDITAR" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="420" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="delete-label" value="ELIMINAR" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="560" y="420" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="yes-usage" value="SÍ" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="720" y="620" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="no-usage" value="NO" style="text;html=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="620" y="620" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• API: src/app/api/categorias/route.ts (7-53)&lt;br/&gt;• Schema: prisma/schema.prisma (26-32)&lt;br/&gt;• Validación: src/app/api/gastos/route.ts (110-121)&lt;br/&gt;• Tests: src/app/api/categorias/__tests__/route.test.ts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="250" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+

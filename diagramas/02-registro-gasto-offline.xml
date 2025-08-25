@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="5.0" version="22.1.16" etag="abc124" type="device">
+  <diagram name="Registro Gasto Offline" id="registro-gasto-offline">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Inicio -->
+        <mxCell id="start" value="Inicio: Usuario sin conexión" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Llenar formulario -->
+        <mxCell id="form" value="Usuario llena formulario&lt;br/&gt;(monto, descripción, fecha)" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="314" y="140" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Detectar conexión -->
+        <mxCell id="connection-check" value="Verificar conexión&lt;br/&gt;useOnlineStatus.isOnline" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="284" y="240" width="260" height="80" as="geometry" />
+        </mxCell>
+        
+        <!-- Ruta online -->
+        <mxCell id="online-path" value="Intentar envío online&lt;br/&gt;fetch('/api/gastos')" style="rect;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="100" y="360" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Ruta offline -->
+        <mxCell id="offline-path" value="Guardar en localStorage&lt;br/&gt;saveOfflineGasto()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="550" y="360" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Error de red -->
+        <mxCell id="network-error" value="¿Error de red?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="100" y="460" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Fallback offline -->
+        <mxCell id="fallback" value="Fallback: Guardar offline&lt;br/&gt;saveOfflineGasto()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="320" y="460" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Actualizar contador -->
+        <mxCell id="update-counter" value="Actualizar contador pendientes&lt;br/&gt;updatePendingCount()" style="rect;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="560" width="180" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Mensaje offline -->
+        <mxCell id="offline-message" value="Mostrar mensaje offline&lt;br/&gt;💾 Gasto guardado offline" style="rect;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="320" y="660" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Éxito online -->
+        <mxCell id="online-success" value="Éxito online&lt;br/&gt;✅ Gasto creado" style="rect;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="560" width="120" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Componente offline UI -->
+        <mxCell id="offline-ui" value="Mostrar en componente&lt;br/&gt;OfflineTransactions" style="rect;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="570" y="660" width="160" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Fin -->
+        <mxCell id="end" value="Fin: Datos guardados&lt;br/&gt;(online o offline)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="314" y="780" width="200" height="60" as="geometry" />
+        </mxCell>
+        
+        <!-- Conexiones principales -->
+        <mxCell edge="1" parent="1" source="start" target="form">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="form" target="connection-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="connection-check" target="online-path">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="connection-check" target="offline-path">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="online-path" target="network-error">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="network-error" target="fallback">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="network-error" target="online-success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="offline-path" target="update-counter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="fallback" target="update-counter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="update-counter" target="offline-message">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="update-counter" target="offline-ui">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="offline-message" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="online-success" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell edge="1" parent="1" source="offline-ui" target="end">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        
+        <!-- Etiquetas -->
+        <mxCell id="online-label" value="ONLINE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="320" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="offline-label" value="OFFLINE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="570" y="320" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="error-yes" value="SÍ" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="260" y="480" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="error-no" value="NO" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="530" width="40" height="20" as="geometry" />
+        </mxCell>
+        
+        <!-- Archivos de código -->
+        <mxCell id="code-note" value="📁 Archivos:&lt;br/&gt;• Hook: src/lib/useOnlineStatus.ts (156-161)&lt;br/&gt;• Storage: src/lib/offlineStorage.ts (34-46)&lt;br/&gt;• Component: src/components/OfflineTransactions.tsx&lt;br/&gt;• Frontend: src/app/pages/expenses/page.tsx (91-108)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
