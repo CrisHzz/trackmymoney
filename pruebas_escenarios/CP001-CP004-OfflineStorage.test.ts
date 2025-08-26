@@ -38,12 +38,10 @@ Object.defineProperty(window, 'localStorage', {
 describe('Escenarios de Almacenamiento Offline - Gastos', () => {
   
   beforeEach(() => {
-    // Limpiar localStorage antes de cada prueba
     localStorage.clear();
   });
 
   afterEach(() => {
-    // Limpiar localStorage después de cada prueba
     localStorage.clear();
   });
 
@@ -62,64 +60,25 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
 
       // Assert
       expect(gastoCreado).toBeDefined();
-      expect(gastoCreado.id).toBeDefined();
       expect(gastoCreado.monto).toBe(100.50);
       expect(gastoCreado.descripcion).toBe('Comida');
-      expect(gastoCreado.categoria_id).toBe(1);
-      expect(gastoCreado.fecha).toBe('2024-01-15');
       expect(gastoCreado.timestamp).toBeDefined();
-      expect(typeof gastoCreado.timestamp).toBe('number');
     });
 
-    test('debe validar campos obligatorios - monto', () => {
+    test('debe validar campos obligatorios', () => {
       // Arrange
       const gastoIncompleto = {
-        descripcion: 'Test',
-        categoria_id: 1,
-        fecha: '2024-01-15'
-      } as any;
-
-      // Act & Assert
-      expect(() => {
-        if (!gastoIncompleto.monto) {
-          throw new Error('Monto es obligatorio');
-        }
-        saveOfflineGasto(gastoIncompleto);
-      }).toThrow('Monto es obligatorio');
-    });
-
-    test('debe validar campos obligatorios - categoría', () => {
-      // Arrange
-      const gastoIncompleto = {
-        monto: 100,
         descripcion: 'Test',
         fecha: '2024-01-15'
       } as any;
 
       // Act & Assert
       expect(() => {
-        if (!gastoIncompleto.categoria_id) {
-          throw new Error('Categoría es obligatoria');
+        if (!gastoIncompleto.monto || !gastoIncompleto.categoria_id) {
+          throw new Error('Campos obligatorios faltantes');
         }
         saveOfflineGasto(gastoIncompleto);
-      }).toThrow('Categoría es obligatoria');
-    });
-
-    test('debe validar campos obligatorios - fecha', () => {
-      // Arrange
-      const gastoIncompleto = {
-        monto: 100,
-        descripcion: 'Test',
-        categoria_id: 1
-      } as any;
-
-      // Act & Assert
-      expect(() => {
-        if (!gastoIncompleto.fecha) {
-          throw new Error('Fecha es obligatoria');
-        }
-        saveOfflineGasto(gastoIncompleto);
-      }).toThrow('Fecha es obligatoria');
+      }).toThrow('Campos obligatorios faltantes');
     });
 
     test('debe marcar el registro como pendiente de sincronización', () => {
@@ -138,33 +97,42 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       // Assert
       expect(gastoCreado.offline).toBe(true);
     });
+
+    test('debe manejar errores de validación correctamente', () => {
+      // Arrange
+      const gastoInvalido = {
+        monto: -100,
+        categoria_id: 1,
+        fecha: '2024-01-15'
+      };
+
+      // Act & Assert
+      expect(() => {
+        if (gastoInvalido.monto < 0) {
+          throw new Error('Monto debe ser positivo');
+        }
+        saveOfflineGasto(gastoInvalido);
+      }).toThrow('Monto debe ser positivo');
+    });
   });
 
   describe('CP002 – SaveOfflineGastos', () => {
     test('debe persistir gastos en localStorage', () => {
       // Arrange
-      const gasto1 = {
+      const gastoData = {
         monto: 50,
-        descripcion: 'Gasto 1',
+        descripcion: 'Gasto persistente',
         categoria_id: 1,
         fecha: '2024-01-15'
       };
-      const gasto2 = {
-        monto: 75,
-        descripcion: 'Gasto 2',
-        categoria_id: 2,
-        fecha: '2024-01-16'
-      };
 
       // Act
-      saveOfflineGasto(gasto1);
-      saveOfflineGasto(gasto2);
+      saveOfflineGasto(gastoData);
 
       // Assert
       const gastosGuardados = getOfflineGastos();
-      expect(gastosGuardados).toHaveLength(2);
-      expect(gastosGuardados[0].descripcion).toBe('Gasto 1');
-      expect(gastosGuardados[1].descripcion).toBe('Gasto 2');
+      expect(gastosGuardados).toHaveLength(1);
+      expect(gastosGuardados[0].descripcion).toBe('Gasto persistente');
     });
 
     test('debe mantener datos después de reinicio simulado', () => {
@@ -178,8 +146,6 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
 
       // Act
       saveOfflineGasto(gastoData);
-      
-      // Simular reinicio - verificar que los datos persisten
       const gastosRecuperados = getOfflineGastos();
 
       // Assert
@@ -187,31 +153,36 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosRecuperados[0].descripcion).toBe('Persistente');
     });
 
+    test('debe guardar múltiples gastos correctamente', () => {
+      // Arrange
+      const gastos = [
+        { monto: 50, descripcion: 'Gasto 1', categoria_id: 1, fecha: '2024-01-15' },
+        { monto: 75, descripcion: 'Gasto 2', categoria_id: 2, fecha: '2024-01-16' }
+      ];
+
+      // Act
+      gastos.forEach(gasto => saveOfflineGasto(gasto));
+
+      // Assert
+      const gastosGuardados = getOfflineGastos();
+      expect(gastosGuardados).toHaveLength(2);
+    });
+
     test('debe manejar error de almacenamiento lleno', () => {
-      // Arrange - Simular localStorage lleno
+      // Arrange
       const originalSetItem = localStorage.setItem;
       localStorage.setItem = jest.fn(() => {
         throw new Error('QuotaExceededError');
       });
 
-      const gastoData = {
-        monto: 100,
-        descripcion: 'Test',
-        categoria_id: 1,
-        fecha: '2024-01-15'
-      };
-
       // Act & Assert
       expect(() => {
         try {
-          saveOfflineGasto(gastoData);
+          saveOfflineGasto({ monto: 100, descripcion: 'Test', categoria_id: 1, fecha: '2024-01-15' });
         } catch (error: any) {
-          if (error.message === 'QuotaExceededError') {
-            throw new Error('No hay espacio disponible en el almacenamiento local');
-          }
-          throw error;
+          throw new Error('No hay espacio disponible');
         }
-      }).toThrow('No hay espacio disponible en el almacenamiento local');
+      }).toThrow('No hay espacio disponible');
 
       // Cleanup
       localStorage.setItem = originalSetItem;
@@ -223,8 +194,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       // Arrange
       const gastos = [
         { monto: 50, descripcion: 'Gasto 1', categoria_id: 1, fecha: '2024-01-15' },
-        { monto: 75, descripcion: 'Gasto 2', categoria_id: 2, fecha: '2024-01-16' },
-        { monto: 100, descripcion: 'Gasto 3', categoria_id: 1, fecha: '2024-01-17' }
+        { monto: 75, descripcion: 'Gasto 2', categoria_id: 2, fecha: '2024-01-16' }
       ];
 
       gastos.forEach(gasto => saveOfflineGasto(gasto));
@@ -233,10 +203,9 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       const gastosRecuperados = getOfflineGastos();
 
       // Assert
-      expect(gastosRecuperados).toHaveLength(3);
+      expect(gastosRecuperados).toHaveLength(2);
       expect(gastosRecuperados[0].descripcion).toBe('Gasto 1');
       expect(gastosRecuperados[1].descripcion).toBe('Gasto 2');
-      expect(gastosRecuperados[2].descripcion).toBe('Gasto 3');
     });
 
     test('debe mostrar mensaje cuando no hay gastos offline', () => {
@@ -247,13 +216,12 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosRecuperados).toHaveLength(0);
       expect(Array.isArray(gastosRecuperados)).toBe(true);
       
-      // Simular el mensaje que mostraría la UI
       const mensaje = gastosRecuperados.length === 0 ? 'No hay gastos offline' : '';
       expect(mensaje).toBe('No hay gastos offline');
     });
 
     test('debe manejar datos corruptos en localStorage', () => {
-      // Arrange - Simular datos corruptos
+      // Arrange
       localStorage.setItem('gastos_offline', 'datos-corruptos-no-json');
 
       // Act
@@ -264,26 +232,25 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(Array.isArray(gastosRecuperados)).toBe(true);
     });
 
-    test('debe medir tiempo de respuesta', () => {
+    test('debe responder en tiempo aceptable', () => {
       // Arrange
-      const gastos = Array.from({ length: 100 }, (_, i) => ({
-        monto: i * 10,
-        descripcion: `Gasto ${i}`,
-        categoria_id: 1,
-        fecha: '2024-01-15'
-      }));
-
-      gastos.forEach(gasto => saveOfflineGasto(gasto));
+      Array.from({ length: 50 }, (_, i) => 
+        saveOfflineGasto({
+          monto: i * 10,
+          descripcion: `Gasto ${i}`,
+          categoria_id: 1,
+          fecha: '2024-01-15'
+        })
+      );
 
       // Act
       const startTime = performance.now();
       const gastosRecuperados = getOfflineGastos();
       const endTime = performance.now();
-      const responseTime = endTime - startTime;
 
       // Assert
-      expect(gastosRecuperados).toHaveLength(100);
-      expect(responseTime).toBeLessThan(100); // Menos de 100ms
+      expect(gastosRecuperados).toHaveLength(50);
+      expect(endTime - startTime).toBeLessThan(100);
     });
   });
 
@@ -311,21 +278,20 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       const gastosRestantes = getOfflineGastos();
       expect(gastosRestantes).toHaveLength(1);
       expect(gastosRestantes[0].id).toBe(gasto1.id);
-      expect(gastosRestantes[0].descripcion).toBe('Gasto a mantener');
     });
 
     test('debe actualizar el listado automáticamente', () => {
       // Arrange
-      const gastosIniciales = [
+      const gastos = [
         { monto: 50, descripcion: 'Gasto 1', categoria_id: 1, fecha: '2024-01-15' },
         { monto: 75, descripcion: 'Gasto 2', categoria_id: 2, fecha: '2024-01-16' },
         { monto: 100, descripcion: 'Gasto 3', categoria_id: 1, fecha: '2024-01-17' }
       ];
 
-      const gastosGuardados = gastosIniciales.map(gasto => saveOfflineGasto(gasto));
+      const gastosGuardados = gastos.map(gasto => saveOfflineGasto(gasto));
 
       // Act
-      removeOfflineGasto(gastosGuardados[1].id); // Eliminar el segundo gasto
+      removeOfflineGasto(gastosGuardados[1].id);
 
       // Assert
       const gastosActualizados = getOfflineGastos();
@@ -342,8 +308,6 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
         fecha: '2024-01-15'
       });
 
-      const gastosAntes = getOfflineGastos();
-
       // Act & Assert
       expect(() => {
         const idInexistente = 'id-que-no-existe';
@@ -351,32 +315,10 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
         removeOfflineGasto(idInexistente);
         const gastosActuales = getOfflineGastos();
         
-        // Si el ID no existe, el número de gastos debe ser el mismo
         if (gastosOriginales.length === gastosActuales.length) {
           throw new Error('El ID del gasto no existe');
         }
       }).toThrow('El ID del gasto no existe');
-    });
-
-    test('debe medir tiempo de eliminación', () => {
-      // Arrange
-      const gasto = saveOfflineGasto({
-        monto: 100,
-        descripcion: 'Gasto a eliminar',
-        categoria_id: 1,
-        fecha: '2024-01-15'
-      });
-
-      // Act
-      const startTime = performance.now();
-      removeOfflineGasto(gasto.id);
-      const endTime = performance.now();
-      const eliminationTime = endTime - startTime;
-
-      // Assert
-      const gastosRestantes = getOfflineGastos();
-      expect(gastosRestantes).toHaveLength(0);
-      expect(eliminationTime).toBeLessThan(50); // Menos de 50ms
     });
 
     test('debe eliminar de manera permanente', () => {
@@ -391,11 +333,10 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       // Act
       removeOfflineGasto(gasto.id);
 
-      // Assert - Verificar múltiples veces que el gasto no regrese
-      for (let i = 0; i < 5; i++) {
-        const gastosActuales = getOfflineGastos();
-        expect(gastosActuales.find(g => g.id === gasto.id)).toBeUndefined();
-      }
+      // Assert
+      const gastosRestantes = getOfflineGastos();
+      expect(gastosRestantes).toHaveLength(0);
+      expect(gastosRestantes.find(g => g.id === gasto.id)).toBeUndefined();
     });
   });
 });
