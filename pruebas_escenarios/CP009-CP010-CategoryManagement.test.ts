@@ -1,7 +1,5 @@
 /**
- * Pruebas unitarias para gestión de categorías
  * Escenarios: CP009 – GetCategory, CP010 – CreateCategory
- * Responsable: Jonathan
  */
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
@@ -189,6 +187,7 @@ describe('CP009 – GetCategory', () => {
     });
   });
 
+  // Test de Caja Blanca: Verifica el filtrado interno por usuario_id y estado activa
   test('debe listar categorías del usuario autenticado', () => {
     // Act
     const result = getUserCategories(mockUser);
@@ -200,6 +199,7 @@ describe('CP009 – GetCategory', () => {
     expect(result.categories.every(cat => cat.usuario_id === 1)).toBe(true);
   });
 
+  // Test de Caja Negra: Verifica control de acceso sin revisar implementación
   test('debe rechazar usuario no autenticado', () => {
     // Arrange
     const usuarioNoAuth = null as any;
@@ -214,6 +214,7 @@ describe('CP009 – GetCategory', () => {
     expect(result.count).toBe(0);
   });
 
+  // Test de Caja Blanca: Verifica la lógica interna de ordenamiento alfabético
   test('debe ordenar categorías alfabéticamente', () => {
     // Act
     const result = getUserCategories(mockUser);
@@ -224,6 +225,7 @@ describe('CP009 – GetCategory', () => {
     expect(result.categories[1].nombre).toBe('Transporte');
   });
 
+  // Test de Caja Negra: Verifica comportamiento con datos vacíos
   test('debe manejar usuario sin categorías', () => {
     // Arrange
     clearMockCategories();
@@ -261,6 +263,7 @@ describe('CP010 – CreateCategory', () => {
     });
   });
 
+  // Test de Caja Negra: Verifica creación exitosa sin revisar implementación
   test('debe crear categoría con nombre válido', () => {
     // Arrange
     const categoriaInput: CategoriaInput = {
@@ -279,6 +282,7 @@ describe('CP010 – CreateCategory', () => {
     expect(result.message).toBe('Categoría creada exitosamente');
   });
 
+  // Test de Caja Negra: Verifica validación de entrada sin revisar lógica interna
   test('debe rechazar nombre vacío', () => {
     // Arrange
     const categoriaInput: CategoriaInput = {
@@ -294,6 +298,7 @@ describe('CP010 – CreateCategory', () => {
     expect(result.message).toBe('El nombre de la categoría es obligatorio');
   });
 
+  // Test de Caja Blanca: Verifica la lógica interna de detección de duplicados
   test('debe rechazar nombre duplicado', () => {
     // Arrange
     const categoriaInput: CategoriaInput = {
@@ -309,6 +314,7 @@ describe('CP010 – CreateCategory', () => {
     expect(result.message).toBe('Ya existe una categoría con este nombre');
   });
 
+  // Test de Caja Negra: Verifica validación de longitud máxima
   test('debe validar longitud máxima del nombre', () => {
     // Arrange
     const nombreMuyLargo = 'A'.repeat(51); // 51 caracteres

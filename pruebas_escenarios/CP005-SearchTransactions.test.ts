@@ -1,7 +1,5 @@
 /**
- * Pruebas unitarias para búsqueda y filtros de transacciones
  * Escenario: CP005 – SearchTransactions
- * Responsable: Jonathan
  */
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
@@ -124,6 +122,7 @@ describe('CP005 – SearchTransactions', () => {
     ];
   });
 
+  // Test de Caja Negra: Verifica funcionalidad de filtrado por categoría sin revisar implementación
   test('debe filtrar transacciones por categoría', () => {
     // Arrange
     const filtros = { categoria: 'Alimentación' };
@@ -137,6 +136,7 @@ describe('CP005 – SearchTransactions', () => {
     expect(resultados[0].descripcion).toBe('Supermercado Éxito');
   });
 
+  // Test de Caja Negra: Verifica funcionalidad de filtrado por fechas
   test('debe filtrar transacciones por rango de fechas', () => {
     // Arrange
     const filtros = { 
@@ -155,6 +155,7 @@ describe('CP005 – SearchTransactions', () => {
     })).toBe(true);
   });
 
+  // Test de Caja Negra: Verifica búsqueda por texto en descripción
   test('debe filtrar transacciones por descripción', () => {
     // Arrange
     const filtros = { descripcion: 'gasolina' };
@@ -167,6 +168,7 @@ describe('CP005 – SearchTransactions', () => {
     expect(resultados[0].descripcion).toBe('Gasolina carro');
   });
 
+  // Test de Caja Negra: Verifica comportamiento con filtros que no coinciden
   test('debe manejar búsqueda sin resultados', () => {
     // Arrange
     const filtros = { categoria: 'Categoría Inexistente' };

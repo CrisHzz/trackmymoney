@@ -1,7 +1,5 @@
 /**
- * Pruebas unitarias para escenarios de almacenamiento offline
  * Escenarios: CP001, CP002, CP003, CP004
- * Responsable: Jonathan
  */
 
 import { describe, test, expect, beforeEach, afterEach } from '@jest/globals';
@@ -46,6 +44,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
   });
 
   describe('CP001 – CreateOfflineGasto', () => {
+    // Test de Caja Negra: Verifica la funcionalidad sin considerar la implementación interna
     test('debe crear un gasto offline correctamente', () => {
       // Arrange
       const gastoData = {
@@ -65,6 +64,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastoCreado.timestamp).toBeDefined();
     });
 
+    // Test de Caja Negra: Verifica validación de entrada sin revisar implementación interna
     test('debe validar campos obligatorios', () => {
       // Arrange
       const gastoIncompleto = {
@@ -81,6 +81,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       }).toThrow('Campos obligatorios faltantes');
     });
 
+    // Test de Caja Blanca: Examina el comportamiento interno específico del flag offline
     test('debe marcar el registro como pendiente de sincronización', () => {
       // Arrange
       const gastoData = {
@@ -98,6 +99,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastoCreado.offline).toBe(true);
     });
 
+    // Test de Caja Negra: Verifica manejo de errores sin considerar la lógica interna
     test('debe manejar errores de validación correctamente', () => {
       // Arrange
       const gastoInvalido = {
@@ -117,6 +119,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
   });
 
   describe('CP002 – SaveOfflineGastos', () => {
+    // Test de Caja Blanca: Verifica directamente la interacción con localStorage
     test('debe persistir gastos en localStorage', () => {
       // Arrange
       const gastoData = {
@@ -135,6 +138,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosGuardados[0].descripcion).toBe('Gasto persistente');
     });
 
+    // Test de Caja Blanca: Examina la persistencia interna de datos en localStorage
     test('debe mantener datos después de reinicio simulado', () => {
       // Arrange
       const gastoData = {
@@ -153,6 +157,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosRecuperados[0].descripcion).toBe('Persistente');
     });
 
+    // Test de Caja Negra: Verifica funcionalidad de múltiples inserciones
     test('debe guardar múltiples gastos correctamente', () => {
       // Arrange
       const gastos = [
@@ -168,6 +173,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosGuardados).toHaveLength(2);
     });
 
+    // Test de Caja Blanca: Simula y verifica comportamiento interno específico de error de cuota
     test('debe manejar error de almacenamiento lleno', () => {
       // Arrange
       const originalSetItem = localStorage.setItem;
@@ -190,6 +196,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
   });
 
   describe('CP003 – GetOfflineGastos', () => {
+    // Test de Caja Negra: Verifica la funcionalidad de recuperación sin considerar implementación
     test('debe devolver listado completo de gastos offline', () => {
       // Arrange
       const gastos = [
@@ -208,6 +215,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosRecuperados[1].descripcion).toBe('Gasto 2');
     });
 
+    // Test de Caja Negra: Verifica comportamiento con datos vacíos
     test('debe mostrar mensaje cuando no hay gastos offline', () => {
       // Act
       const gastosRecuperados = getOfflineGastos();
@@ -220,6 +228,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(mensaje).toBe('No hay gastos offline');
     });
 
+    // Test de Caja Blanca: Verifica manejo interno de datos corruptos en localStorage
     test('debe manejar datos corruptos en localStorage', () => {
       // Arrange
       localStorage.setItem('gastos_offline', 'datos-corruptos-no-json');
@@ -232,6 +241,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(Array.isArray(gastosRecuperados)).toBe(true);
     });
 
+    // Test de Caja Negra: Verifica requisitos de rendimiento sin considerar implementación
     test('debe responder en tiempo aceptable', () => {
       // Arrange
       Array.from({ length: 50 }, (_, i) => 
@@ -255,6 +265,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
   });
 
   describe('CP004 – RemoveOfflineGasto', () => {
+    // Test de Caja Negra: Verifica funcionalidad de eliminación específica
     test('debe eliminar gasto específico del almacenamiento local', () => {
       // Arrange
       const gasto1 = saveOfflineGasto({
@@ -280,6 +291,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosRestantes[0].id).toBe(gasto1.id);
     });
 
+    // Test de Caja Blanca: Verifica que la actualización interna del listado funcione correctamente
     test('debe actualizar el listado automáticamente', () => {
       // Arrange
       const gastos = [
@@ -299,6 +311,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       expect(gastosActualizados.find(g => g.id === gastosGuardados[1].id)).toBeUndefined();
     });
 
+    // Test de Caja Negra: Verifica manejo de casos límite (ID no válido)
     test('debe manejar ID inexistente', () => {
       // Arrange
       saveOfflineGasto({
@@ -321,6 +334,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       }).toThrow('El ID del gasto no existe');
     });
 
+    // Test de Caja Blanca: Verifica que la eliminación sea permanente en el almacenamiento
     test('debe eliminar de manera permanente', () => {
       // Arrange
       const gasto = saveOfflineGasto({

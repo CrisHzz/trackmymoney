@@ -1,7 +1,5 @@
 /**
- * Pruebas unitarias para autenticación de usuarios
  * Escenario: CP008 – UserAuth
- * Responsable: Jonathan
  */
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
@@ -136,6 +134,7 @@ describe('CP008 – UserAuth', () => {
     clearFailedAttempts();
   });
 
+  // Test de Caja Negra: Verifica autenticación exitosa sin revisar implementación interna
   test('debe autenticar usuario con credenciales correctas', () => {
     // Arrange
     const credentials: AuthCredentials = {
@@ -154,6 +153,7 @@ describe('CP008 – UserAuth', () => {
     expect(result.sessionToken).toBeDefined();
   });
 
+  // Test de Caja Negra: Verifica rechazo de credenciales inválidas
   test('debe rechazar credenciales incorrectas', () => {
     // Arrange
     const credentials: AuthCredentials = {
@@ -171,6 +171,7 @@ describe('CP008 – UserAuth', () => {
     expect(result.attemptCount).toBe(1);
   });
 
+  // Test de Caja Blanca: Verifica la lógica interna del contador de intentos y activación de CAPTCHA
   test('debe implementar CAPTCHA después de múltiples intentos fallidos', () => {
     // Arrange
     const credentials: AuthCredentials = {
@@ -191,6 +192,7 @@ describe('CP008 – UserAuth', () => {
     expect(cuartoIntento.message).toContain('CAPTCHA');
   });
 
+  // Test de Caja Blanca: Verifica validación interna del estado emailVerified
   test('debe rechazar usuarios con email no verificado', () => {
     // Arrange
     const credentials: AuthCredentials = {

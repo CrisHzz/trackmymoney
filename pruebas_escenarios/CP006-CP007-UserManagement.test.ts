@@ -1,7 +1,5 @@
 /**
- * Pruebas unitarias para gestión de usuarios
  * Escenarios: CP006 – DeleteUser, CP007 – GetUserTransaction
- * Responsable: Jonathan
  */
 
 import { describe, test, expect, beforeEach } from '@jest/globals';
@@ -129,6 +127,7 @@ describe('CP006 – DeleteUser', () => {
     ];
   });
 
+  // Test de Caja Negra: Verifica comportamiento de seguridad sin revisar implementación
   test('debe requerir confirmación antes de eliminar', () => {
     // Act & Assert
     expect(() => {
@@ -136,6 +135,7 @@ describe('CP006 – DeleteUser', () => {
     }).toThrow('Debe confirmar la eliminación del usuario');
   });
 
+  // Test de Caja Negra: Verifica funcionalidad de eliminación exitosa
   test('debe proceder con eliminación cuando se confirma', () => {
     // Act
     const resultado = deleteUser(mockUser, mockTransactions, mockCategories, true);
@@ -145,6 +145,7 @@ describe('CP006 – DeleteUser', () => {
     expect(resultado.message).toBe('Usuario eliminado correctamente');
   });
 
+  // Test de Caja Blanca: Verifica que la lógica interna cuente correctamente las transacciones eliminadas
   test('debe eliminar todas las transacciones del usuario', () => {
     // Act
     const resultado = deleteUser(mockUser, mockTransactions, mockCategories, true);
@@ -154,6 +155,7 @@ describe('CP006 – DeleteUser', () => {
     expect(resultado.deletedData?.transacciones).toBe(2);
   });
 
+  // Test de Caja Negra: Verifica manejo de casos límite (usuario inexistente)
   test('debe mostrar error si el usuario no existe', () => {
     // Arrange
     const usuarioInexistente = null as any;
@@ -187,6 +189,7 @@ describe('CP007 – GetUserTransaction', () => {
     ];
   });
 
+  // Test de Caja Blanca: Verifica el filtrado interno por usuario_id
   test('debe devolver transacciones del usuario autenticado', () => {
     // Act
     const resultado = getUserTransactions(mockUser, mockAllTransactions);
@@ -197,6 +200,7 @@ describe('CP007 – GetUserTransaction', () => {
     expect(resultado.transactions.every(t => t.usuario_id === 1)).toBe(true);
   });
 
+  // Test de Caja Negra: Verifica control de acceso sin revisar implementación
   test('debe rechazar usuario no autenticado', () => {
     // Arrange
     const usuarioNoAuth = null as any;
@@ -210,6 +214,7 @@ describe('CP007 – GetUserTransaction', () => {
     expect(resultado.message).toBe('Usuario no autenticado');
   });
 
+  // Test de Caja Blanca: Verifica la lógica interna de ordenamiento por fecha
   test('debe ordenar transacciones por fecha descendente', () => {
     // Act
     const resultado = getUserTransactions(mockUser, mockAllTransactions);
@@ -223,6 +228,7 @@ describe('CP007 – GetUserTransaction', () => {
     }
   });
 
+  // Test de Caja Negra: Verifica comportamiento con datos vacíos
   test('debe mostrar mensaje cuando no hay transacciones', () => {
     // Arrange
     const transaccionesVacias: Transaction[] = [];
