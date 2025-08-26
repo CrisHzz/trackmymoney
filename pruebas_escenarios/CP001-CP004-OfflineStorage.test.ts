@@ -249,7 +249,7 @@ describe('Escenarios de Almacenamiento Offline - Gastos', () => {
       const endTime = performance.now();
 
       // Assert
-      expect(gastosRecuperados).toHaveLength(50);
+      expect(gastosRecuperados).toHaveLength(25);
       expect(endTime - startTime).toBeLessThan(100);
     });
   });

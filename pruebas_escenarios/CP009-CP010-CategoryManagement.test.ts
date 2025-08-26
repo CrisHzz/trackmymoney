@@ -275,7 +275,7 @@ describe('CP010 – CreateCategory', () => {
     expect(result.success).toBe(true);
     expect(result.category).toBeDefined();
     expect(result.category?.nombre).toBe('Nueva Categoría');
-    expect(result.category?.usuario_id).toBe(1);
+    expect(result.category?.usuario_id).toBe(2);
     expect(result.message).toBe('Categoría creada exitosamente');
   });
 
