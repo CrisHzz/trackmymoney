@@ -1,8 +1,8 @@
 /**
- * Escenarios: CP006 – DeleteUser, CP007 – GetUserTransaction
+ * Pruebas unitarias para gestión de usuarios
  */
 
-import { describe, test, expect, beforeEach } from '@jest/globals';
+import assert from 'assert';
 
 // Interfaces para los datos
 interface Usuario {
@@ -103,142 +103,216 @@ export const getUserTransactions = (
   };
 };
 
-describe('CP006 – DeleteUser', () => {
-  let mockUser: Usuario;
-  let mockTransactions: Transaction[];
-  let mockCategories: Categoria[];
+// Función helper para simular describe/test
+function describe(suiteName: string, fn: () => void) {
+  console.log(`\n🧪 Suite: ${suiteName}`);
+  fn();
+}
 
-  beforeEach(() => {
-    mockUser = {
-      id: 1,
-      email: 'test@example.com',
-      clerk_id: 'clerk_123',
-      activo: true
-    };
+function test(testName: string, fn: () => void) {
+  try {
+    fn();
+    console.log(`  ✅ ${testName}`);
+  } catch (error) {
+    console.log(`  ❌ ${testName}`);
+    console.error(`     Error: ${error.message}`);
+    // No re-lanzar el error para permitir que continúen otros tests
+  }
+}
 
-    mockTransactions = [
-      { id: 1, monto: 500, fecha: '2024-01-15', descripcion: 'Gasto 1', tipo: 'gasto', usuario_id: 1 },
-      { id: 2, monto: 1000, fecha: '2024-01-16', descripcion: 'Ingreso 1', tipo: 'ingreso', usuario_id: 1 }
-    ];
-
-    mockCategories = [
-      { id: 1, nombre: 'Alimentación', usuario_id: 1 },
-      { id: 2, nombre: 'Transporte', usuario_id: 1 }
-    ];
-  });
-
-  // Test de Caja Negra: Verifica comportamiento de seguridad sin revisar implementación
-  test('debe requerir confirmación antes de eliminar', () => {
-    // Act & Assert
-    expect(() => {
-      deleteUser(mockUser, mockTransactions, mockCategories, false);
-    }).toThrow('Debe confirmar la eliminación del usuario');
-  });
-
-  // Test de Caja Negra: Verifica funcionalidad de eliminación exitosa
-  test('debe proceder con eliminación cuando se confirma', () => {
-    // Act
-    const resultado = deleteUser(mockUser, mockTransactions, mockCategories, true);
-
-    // Assert
-    expect(resultado.success).toBe(true);
-    expect(resultado.message).toBe('Usuario eliminado correctamente');
-  });
-
-  // Test de Caja Blanca: Verifica que la lógica interna cuente correctamente las transacciones eliminadas
-  test('debe eliminar todas las transacciones del usuario', () => {
-    // Act
-    const resultado = deleteUser(mockUser, mockTransactions, mockCategories, true);
-
-    // Assert
-    expect(resultado.success).toBe(true);
-    expect(resultado.deletedData?.transacciones).toBe(2);
-  });
-
-  // Test de Caja Negra: Verifica manejo de casos límite (usuario inexistente)
-  test('debe mostrar error si el usuario no existe', () => {
-    // Arrange
-    const usuarioInexistente = null as any;
-
-    // Act
-    const resultado = deleteUser(usuarioInexistente, mockTransactions, mockCategories, true);
-
-    // Assert
-    expect(resultado.success).toBe(false);
-    expect(resultado.message).toBe('El usuario no existe');
-  });
-});
-
-describe('CP007 – GetUserTransaction', () => {
-  let mockUser: Usuario;
-  let mockAllTransactions: Transaction[];
-
-  beforeEach(() => {
-    mockUser = {
-      id: 1,
-      email: 'test@example.com',
-      clerk_id: 'clerk_123',
-      activo: true
-    };
-
-    mockAllTransactions = [
-      { id: 1, monto: 500, fecha: '2024-01-20', descripcion: 'Gasto reciente', tipo: 'gasto', usuario_id: 1 },
-      { id: 2, monto: 1000, fecha: '2024-01-15', descripcion: 'Ingreso anterior', tipo: 'ingreso', usuario_id: 1 },
-      { id: 3, monto: 200, fecha: '2024-01-25', descripcion: 'Gasto más reciente', tipo: 'gasto', usuario_id: 1 },
-      { id: 4, monto: 300, fecha: '2024-01-18', descripcion: 'Transacción otro usuario', tipo: 'gasto', usuario_id: 2 }
-    ];
-  });
-
-  // Test de Caja Blanca: Verifica el filtrado interno por usuario_id
-  test('debe devolver transacciones del usuario autenticado', () => {
-    // Act
-    const resultado = getUserTransactions(mockUser, mockAllTransactions);
-
-    // Assert
-    expect(resultado.success).toBe(true);
-    expect(resultado.transactions).toHaveLength(3);
-    expect(resultado.transactions.every(t => t.usuario_id === 1)).toBe(true);
-  });
-
-  // Test de Caja Negra: Verifica control de acceso sin revisar implementación
-  test('debe rechazar usuario no autenticado', () => {
-    // Arrange
-    const usuarioNoAuth = null as any;
-
-    // Act
-    const resultado = getUserTransactions(usuarioNoAuth, mockAllTransactions);
-
-    // Assert
-    expect(resultado.success).toBe(false);
-    expect(resultado.transactions).toHaveLength(0);
-    expect(resultado.message).toBe('Usuario no autenticado');
-  });
-
-  // Test de Caja Blanca: Verifica la lógica interna de ordenamiento por fecha
-  test('debe ordenar transacciones por fecha descendente', () => {
-    // Act
-    const resultado = getUserTransactions(mockUser, mockAllTransactions);
-
-    // Assert
-    expect(resultado.success).toBe(true);
-    
-    const fechas = resultado.transactions.map(t => new Date(t.fecha).getTime());
-    for (let i = 1; i < fechas.length; i++) {
-      expect(fechas[i]).toBeLessThanOrEqual(fechas[i - 1]);
+// Helper functions para reemplazar expect
+function expect(actual: any) {
+  return {
+    toBe: (expected: any) => assert.strictEqual(actual, expected),
+    toEqual: (expected: any) => assert.deepStrictEqual(actual, expected),
+    toHaveLength: (length: number) => assert.strictEqual(actual.length, length),
+    toBeUndefined: () => assert.strictEqual(actual, undefined),
+    toThrow: (expectedError?: string) => {
+      let threw = false;
+      try {
+        if (typeof actual === 'function') {
+          actual();
+        }
+      } catch (error) {
+        threw = true;
+        if (expectedError) {
+          assert.ok(error.message.includes(expectedError));
+        }
+      }
+      assert.ok(threw, 'Expected function to throw an error');
     }
+  };
+}
+
+// Función principal de testing
+function runTests() {
+  describe('CP006 – DeleteUser', () => {
+    let mockUser: Usuario;
+    let mockTransactions: Transaction[];
+    let mockCategories: Categoria[];
+
+    const setupMockData = () => {
+      mockUser = {
+        id: 1,
+        email: 'test@example.com',
+        clerk_id: 'clerk_123',
+        activo: true
+      };
+
+      mockTransactions = [
+        { id: 1, monto: 500, fecha: '2024-01-15', descripcion: 'Gasto 1', tipo: 'gasto', usuario_id: 1 },
+        { id: 2, monto: 1000, fecha: '2024-01-16', descripcion: 'Ingreso 1', tipo: 'ingreso', usuario_id: 1 }
+      ];
+
+      mockCategories = [
+        { id: 1, nombre: 'Alimentación', usuario_id: 1 },
+        { id: 2, nombre: 'Transporte', usuario_id: 1 }
+      ];
+    };
+
+    // Test de Caja Negra: Verifica comportamiento de seguridad sin revisar implementación
+    test('debe requerir confirmación antes de eliminar', () => {
+      setupMockData();
+      // Act & Assert
+      expect(() => {
+        deleteUser(mockUser, mockTransactions, mockCategories, false);
+      }).toThrow('Debe confirmar la eliminación del usuario');
+    });
+
+    // Test de Caja Negra: Verifica funcionalidad de eliminación exitosa
+    test('debe proceder con eliminación cuando se confirma', () => {
+      setupMockData();
+      // Act
+      const resultado = deleteUser(mockUser, mockTransactions, mockCategories, true);
+
+      // Assert
+      expect(resultado.success).toBe(true);
+      expect(resultado.message).toBe('Usuario eliminado correctamente');
+    });
+
+    // Test de Caja Blanca: Verifica que la lógica interna cuente correctamente las transacciones eliminadas
+    test('debe eliminar todas las transacciones del usuario', () => {
+      setupMockData();
+      // Act
+      const resultado = deleteUser(mockUser, mockTransactions, mockCategories, true);
+
+      // Assert
+      expect(resultado.success).toBe(true);
+      expect(resultado.deletedData?.transacciones).toBe(2);
+    });
+
+    // Test de Caja Negra: Verifica manejo de casos límite (usuario inexistente)
+    test('debe mostrar error si el usuario no existe', () => {
+      setupMockData();
+      // Arrange
+      const usuarioInexistente = null as any;
+
+      // Act
+      const resultado = deleteUser(usuarioInexistente, mockTransactions, mockCategories, true);
+
+      // Assert
+      expect(resultado.success).toBe(false);
+      expect(resultado.message).toBe('El usuario no existe');
+    });
   });
 
-  // Test de Caja Negra: Verifica comportamiento con datos vacíos
-  test('debe mostrar mensaje cuando no hay transacciones', () => {
-    // Arrange
-    const transaccionesVacias: Transaction[] = [];
+  describe('CP007 – GetUserTransaction', () => {
+    let mockUser: Usuario;
+    let mockAllTransactions: Transaction[];
 
-    // Act
-    const resultado = getUserTransactions(mockUser, transaccionesVacias);
+    const setupMockData = () => {
+      mockUser = {
+        id: 1,
+        email: 'test@example.com',
+        clerk_id: 'clerk_123',
+        activo: true
+      };
 
-    // Assert
-    expect(resultado.success).toBe(true);
-    expect(resultado.transactions).toHaveLength(0);
-    expect(resultado.message).toBe('No hay transacciones registradas');
+      mockAllTransactions = [
+        { id: 1, monto: 500, fecha: '2024-01-20', descripcion: 'Gasto reciente', tipo: 'gasto', usuario_id: 1 },
+        { id: 2, monto: 1000, fecha: '2024-01-15', descripcion: 'Ingreso anterior', tipo: 'ingreso', usuario_id: 1 },
+        { id: 3, monto: 200, fecha: '2024-01-25', descripcion: 'Gasto más reciente', tipo: 'gasto', usuario_id: 1 },
+        { id: 4, monto: 300, fecha: '2024-01-18', descripcion: 'Transacción otro usuario', tipo: 'gasto', usuario_id: 2 }
+      ];
+    };
+
+    // Test de Caja Blanca: Verifica el filtrado interno por usuario_id
+    test('debe devolver transacciones del usuario autenticado', () => {
+      setupMockData();
+      // Act
+      const resultado = getUserTransactions(mockUser, mockAllTransactions);
+
+      // Assert
+      expect(resultado.success).toBe(true);
+      expect(resultado.transactions).toHaveLength(3);
+      assert.ok(resultado.transactions.every(t => t.usuario_id === 1));
+    });
+
+    // Test de Caja Negra: Verifica control de acceso sin revisar implementación
+    test('debe rechazar usuario no autenticado', () => {
+      setupMockData();
+      // Arrange
+      const usuarioNoAuth = null as any;
+
+      // Act
+      const resultado = getUserTransactions(usuarioNoAuth, mockAllTransactions);
+
+      // Assert
+      expect(resultado.success).toBe(false);
+      expect(resultado.transactions).toHaveLength(0);
+      expect(resultado.message).toBe('Usuario no autenticado');
+    });
+
+    // Test de Caja Blanca: Verifica la lógica interna de ordenamiento por fecha
+    test('debe ordenar transacciones por fecha descendente', () => {
+      setupMockData();
+      // Act
+      const resultado = getUserTransactions(mockUser, mockAllTransactions);
+
+      // Assert
+      expect(resultado.success).toBe(true);
+      
+      const fechas = resultado.transactions.map(t => new Date(t.fecha).getTime());
+      for (let i = 1; i < fechas.length; i++) {
+        assert.ok(fechas[i] <= fechas[i - 1]);
+      }
+    });
+
+    // Test de Caja Negra: Verifica comportamiento con datos vacíos
+    test('debe mostrar mensaje cuando no hay transacciones', () => {
+      setupMockData();
+      // Arrange
+      const transaccionesVacias: Transaction[] = [];
+
+      // Act
+      const resultado = getUserTransactions(mockUser, transaccionesVacias);
+
+      // Assert
+      expect(resultado.success).toBe(true);
+      expect(resultado.transactions).toHaveLength(0);
+      expect(resultado.message).toBe('No hay transacciones registradas');
+    });
+
+    // Test de Caja Negra: Verifica manejo de usuario inactivo
+    test('debe rechazar usuario inactivo', () => {
+      setupMockData();
+      // Arrange
+      const usuarioInactivo = { ...mockUser, activo: false };
+
+      // Act
+      const resultado = getUserTransactions(usuarioInactivo, mockAllTransactions);
+
+      // Assert
+      expect(resultado.success).toBe(false);
+      expect(resultado.transactions).toHaveLength(0);
+      expect(resultado.message).toBe('Usuario inactivo');
+      // FALLO INTENCIONAL: Esperamos que haya transacciones cuando no debería
+      expect(resultado.transactions).toHaveLength(5);
+    });
   });
-});
+}
+
+// Ejecutar las pruebas
+runTests();
+
+export { runTests };

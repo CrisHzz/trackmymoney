@@ -9,7 +9,7 @@ export default function UserButton() {
           userButtonPopoverCard: "bg-white shadow-lg rounded-lg border border-gray-200",
         },
       }}
-      afterSignOutUrl="/"
+      redirectUrl="/"
     />
   );
 }

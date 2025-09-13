@@ -1,8 +1,8 @@
 /**
- * Escenario: CP008 – UserAuth
+ * Pruebas unitarias para autenticación de usuarios
  */
 
-import { describe, test, expect, beforeEach } from '@jest/globals';
+import assert from 'assert';
 
 // Interfaces para autenticación
 interface AuthCredentials {
@@ -128,84 +128,158 @@ export const clearFailedAttempts = () => {
   failedAttempts.clear();
 };
 
-describe('CP008 – UserAuth', () => {
-  
-  beforeEach(() => {
-    clearFailedAttempts();
-  });
+// Función helper para simular describe/test
+function describe(suiteName: string, fn: () => void) {
+  console.log(`\n🧪 Suite: ${suiteName}`);
+  fn();
+}
 
-  // Test de Caja Negra: Verifica autenticación exitosa sin revisar implementación interna
-  test('debe autenticar usuario con credenciales correctas', () => {
-    // Arrange
-    const credentials: AuthCredentials = {
-      email: 'test@example.com',
-      password: 'password123'
-    };
+function test(testName: string, fn: () => void) {
+  try {
+    fn();
+    console.log(`  ✅ ${testName}`);
+  } catch (error) {
+    console.log(`  ❌ ${testName}`);
+    console.error(`     Error: ${error.message}`);
+    // No re-lanzar el error para permitir que continúen otros tests
+  }
+}
 
-    // Act
-    const result = authenticateUser(credentials);
+// Helper functions para reemplazar expect
+function expect(actual: any) {
+  return {
+    toBe: (expected: any) => assert.strictEqual(actual, expected),
+    toEqual: (expected: any) => assert.deepStrictEqual(actual, expected),
+    toBeDefined: () => assert.notStrictEqual(actual, undefined),
+    toBeUndefined: () => assert.strictEqual(actual, undefined),
+    toContain: (expected: string) => assert.ok(actual.includes(expected))
+  };
+}
 
-    // Assert
-    expect(result.success).toBe(true);
-    expect(result.user).toBeDefined();
-    expect(result.user?.email).toBe('test@example.com');
-    expect(result.message).toBe('Autenticación exitosa');
-    expect(result.sessionToken).toBeDefined();
-  });
-
-  // Test de Caja Negra: Verifica rechazo de credenciales inválidas
-  test('debe rechazar credenciales incorrectas', () => {
-    // Arrange
-    const credentials: AuthCredentials = {
-      email: 'test@example.com',
-      password: 'wrongpassword'
-    };
-
-    // Act
-    const result = authenticateUser(credentials);
-
-    // Assert
-    expect(result.success).toBe(false);
-    expect(result.message).toBe('Credenciales incorrectas');
-    expect(result.user).toBeUndefined();
-    expect(result.attemptCount).toBe(1);
-  });
-
-  // Test de Caja Blanca: Verifica la lógica interna del contador de intentos y activación de CAPTCHA
-  test('debe implementar CAPTCHA después de múltiples intentos fallidos', () => {
-    // Arrange
-    const credentials: AuthCredentials = {
-      email: 'test@example.com',
-      password: 'wrongpassword'
-    };
-
-    // Act - Realizar 3 intentos fallidos
-    authenticateUser(credentials);
-    authenticateUser(credentials);
-    authenticateUser(credentials);
+// Función principal de testing
+function runTests() {
+  describe('CP008 – UserAuth', () => {
     
-    const cuartoIntento = authenticateUser(credentials);
+    const clearAttempts = () => clearFailedAttempts();
 
-    // Assert
-    expect(cuartoIntento.success).toBe(false);
-    expect(cuartoIntento.requiresCaptcha).toBe(true);
-    expect(cuartoIntento.message).toContain('CAPTCHA');
+    // Test de Caja Negra: Verifica autenticación exitosa sin revisar implementación interna
+    test('debe autenticar usuario con credenciales correctas', () => {
+      clearAttempts();
+      // Arrange
+      const credentials: AuthCredentials = {
+        email: 'test@example.com',
+        password: 'password123'
+      };
+
+      // Act
+      const result = authenticateUser(credentials);
+
+      // Assert
+      expect(result.success).toBe(true);
+      expect(result.user).toBeDefined();
+      expect(result.user?.email).toBe('test@example.com');
+      expect(result.message).toBe('Autenticación exitosa');
+      expect(result.sessionToken).toBeDefined();
+    });
+
+    // Test de Caja Negra: Verifica rechazo de credenciales inválidas
+    test('debe rechazar credenciales incorrectas', () => {
+      clearAttempts();
+      // Arrange
+      const credentials: AuthCredentials = {
+        email: 'test@example.com',
+        password: 'wrongpassword'
+      };
+
+      // Act
+      const result = authenticateUser(credentials);
+
+      // Assert
+      expect(result.success).toBe(false);
+      expect(result.message).toBe('Credenciales incorrectas');
+      expect(result.user).toBeUndefined();
+      expect(result.attemptCount).toBe(1);
+    });
+
+    // Test de Caja Blanca: Verifica la lógica interna del contador de intentos y activación de CAPTCHA
+    test('debe implementar CAPTCHA después de múltiples intentos fallidos', () => {
+      clearAttempts();
+      // Arrange
+      const credentials: AuthCredentials = {
+        email: 'test@example.com',
+        password: 'wrongpassword'
+      };
+
+      // Act - Realizar 3 intentos fallidos
+      authenticateUser(credentials);
+      authenticateUser(credentials);
+      authenticateUser(credentials);
+      
+      const cuartoIntento = authenticateUser(credentials);
+
+      // Assert
+      expect(cuartoIntento.success).toBe(false);
+      expect(cuartoIntento.requiresCaptcha).toBe(true);
+      expect(cuartoIntento.message).toContain('CAPTCHA');
+    });
+
+    // Test de Caja Blanca: Verifica validación interna del estado emailVerified
+    test('debe rechazar usuarios con email no verificado', () => {
+      clearAttempts();
+      // Arrange
+      const credentials: AuthCredentials = {
+        email: 'unverified@test.com',
+        password: 'testpass789'
+      };
+
+      // Act
+      const result = authenticateUser(credentials);
+
+      // Assert
+      expect(result.success).toBe(false);
+      expect(result.message).toContain('Email no verificado');
+      expect(result.user).toBeUndefined();
+    });
+
+    // Test de Caja Negra: Verifica validación de campos requeridos
+    test('debe rechazar credenciales vacías', () => {
+      clearAttempts();
+      // Arrange
+      const credentials: AuthCredentials = {
+        email: '',
+        password: ''
+      };
+
+      // Act
+      const result = authenticateUser(credentials);
+
+      // Assert
+      expect(result.success).toBe(false);
+      expect(result.message).toBe('Email y contraseña son requeridos');
+    });
+
+    // Test de Caja Negra: Verifica validación de formato de email
+    test('debe rechazar formato de email inválido', () => {
+      clearAttempts();
+      // Arrange
+      const credentials: AuthCredentials = {
+        email: 'email-invalido',
+        password: 'password123'
+      };
+
+      // Act
+      const result = authenticateUser(credentials);
+
+      // Assert
+      expect(result.success).toBe(false);
+      expect(result.message).toBe('Formato de email inválido');
+      // FALLO INTENCIONAL: Esperamos que sea exitoso cuando debería fallar
+      expect(result.success).toBe(true);
+    });
   });
+}
 
-  // Test de Caja Blanca: Verifica validación interna del estado emailVerified
-  test('debe rechazar usuarios con email no verificado', () => {
-    // Arrange
-    const credentials: AuthCredentials = {
-      email: 'unverified@test.com',
-      password: 'testpass789'
-    };
+// Ejecutar las pruebas
+runTests();
 
-    // Act
-    const result = authenticateUser(credentials);
-
-    // Assert
-    expect(result.success).toBe(false);
-    expect(result.message).toContain('Email no verificado');
-    expect(result.user).toBeUndefined();
-  });
-});
+export { runTests };
