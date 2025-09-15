@@ -17,7 +17,7 @@ export default function HeaderClient() {
   return (
     <>
       {showHeader && <Header />}
-      <style jsx global>{`
+      <style>{`
         main {
           padding-top: ${showHeader ? '4rem' : '0'};
         }

@@ -20,12 +20,15 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   collectCoverageFrom: [
+    // Incluir TODO el código fuente
     'src/**/*.{js,jsx,ts,tsx}',
+    // Excluir archivos que no son código
     '!src/**/*.d.ts',
-    '!src/app/pages/**',
-    '!src/app/layout.tsx',
-    '!src/app/globals.css',
-    '!src/middleware.ts'
+    '!src/**/*.test.ts',
+    '!src/**/*.test.tsx',
+    '!src/**/*.spec.ts',
+    '!src/**/*.spec.tsx',
+    '!src/**/__tests__/**'
   ],
   coverageThreshold: {
     global: {

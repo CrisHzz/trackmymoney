@@ -33,7 +33,7 @@ export default function IncomePage() {
   });
 
   // Usar el hook PWA
-  const { createIngreso, isOnline } = useOnlineStatus();
+  const { createIngreso } = useOnlineStatus();
 
   useEffect(() => {
     fetchIncomes();

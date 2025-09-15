@@ -18,6 +18,23 @@ import {
   Area
 } from 'recharts';
 
+// Componente CustomTooltip movido fuera del componente principal
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload?.length) {
+    return (
+      <div className="bg-white/90 backdrop-blur-md p-3 rounded-lg border border-white/20 shadow-lg">
+        <p className="text-gray-800 font-medium">{`${label}`}</p>
+        {payload.map((entry: any) => (
+          <p key={entry.dataKey || entry.name} style={{ color: entry.color }} className="font-medium">
+            {`${entry.name}: $${entry.value}`}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 interface Categoria {
   id: number;
   nombre: string;
@@ -178,21 +195,6 @@ export default function StatsPage() {
   const totalIngresos = Array.isArray(ingresos) ? ingresos.reduce((sum, ingreso) => sum + Number(ingreso.monto), 0) : 0;
   const balance = totalIngresos - totalGastos;
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-white/90 backdrop-blur-md p-3 rounded-lg border border-white/20 shadow-lg">
-          <p className="text-gray-800 font-medium">{`${label}`}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={index} style={{ color: entry.color }} className="font-medium">
-              {`${entry.name}: $${entry.value}`}
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
 
   if (loading) {
     return (
@@ -315,7 +317,7 @@ export default function StatsPage() {
                   >
                     {gastosData.map((entry, index) => (
                       <Cell 
-                        key={`cell-${index}`} 
+                        key={`cell-${entry.name}-${entry.value}`} 
                         fill={COLORS.expenses[index % COLORS.expenses.length]} 
                       />
                     ))}
@@ -358,7 +360,7 @@ export default function StatsPage() {
                   >
                     {ingresosData.map((entry, index) => (
                       <Cell 
-                        key={`cell-${index}`} 
+                        key={`cell-${entry.name}-${entry.value}`} 
                         fill={COLORS.income[index % COLORS.income.length]} 
                       />
                     ))}

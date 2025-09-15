@@ -40,7 +40,7 @@ export default function ExpensesPage() {
   });
 
   // Usar el hook PWA
-  const { createGasto, isOnline } = useOnlineStatus();
+  const { createGasto } = useOnlineStatus();
 
   useEffect(() => {
     fetchExpenses();

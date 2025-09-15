@@ -150,7 +150,7 @@ export default function Butz() {
                       <div className="flex flex-wrap gap-1">
                         {message.suggestions.map((suggestion, index) => (
                           <button
-                            key={index}
+                            key={`suggestion-${suggestion}-${index}`}
                             className="px-3 py-1 text-xs border border-white/30 rounded-md hover:bg-white/20 transition-colors text-white/80 hover:text-white"
                             onClick={() => handleSuggestionClick(suggestion)}
                           >

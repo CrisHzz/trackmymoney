@@ -61,6 +61,64 @@ export const useOnlineStatus = () => {
     }
   }, []);
 
+  const syncSingleGasto = async (gasto: any) => {
+    try {
+      const response = await fetch('/api/gastos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          monto: gasto.monto,
+          fecha: gasto.fecha,
+          descripcion: gasto.descripcion,
+          categoria_id: gasto.categoria_id,
+          factura: gasto.factura,
+          metodo_pago: gasto.metodo_pago
+        }),
+      });
+
+      if (response.ok) {
+        console.log(`✅ Sincronizado gasto:`, gasto.id);
+        if (gasto.id) removeOfflineGasto(gasto.id);
+      } else {
+        console.error(`❌ Error sincronizando gasto ${gasto.id}:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`❌ Error de red sincronizando gasto ${gasto.id}:`, error);
+    }
+  };
+
+  const syncSingleIngreso = async (ingreso: any) => {
+    try {
+      const response = await fetch('/api/ingresos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          monto: ingreso.monto,
+          fecha: ingreso.fecha,
+          descripcion: ingreso.descripcion,
+          categoria_id: ingreso.categoria_id,
+          tipo_ingreso: ingreso.tipo_ingreso,
+          recurrente: ingreso.recurrente,
+          frecuencia: ingreso.frecuencia,
+          fecha_fin: ingreso.fecha_fin
+        }),
+      });
+
+      if (response.ok) {
+        console.log(`✅ Sincronizado ingreso:`, ingreso.id);
+        if (ingreso.id) removeOfflineIngreso(ingreso.id);
+      } else {
+        console.error(`❌ Error sincronizando ingreso ${ingreso.id}:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`❌ Error de red sincronizando ingreso ${ingreso.id}:`, error);
+    }
+  };
+
   const syncPendingTransactions = async () => {
     if (!isOnline || typeof window === 'undefined') return;
 
@@ -72,62 +130,12 @@ export const useOnlineStatus = () => {
       
       // Sincronizar gastos
       for (const gasto of gastos) {
-        try {
-          const response = await fetch('/api/gastos', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              monto: gasto.monto,
-              fecha: gasto.fecha,
-              descripcion: gasto.descripcion,
-              categoria_id: gasto.categoria_id,
-              factura: gasto.factura,
-              metodo_pago: gasto.metodo_pago
-            }),
-          });
-
-          if (response.ok) {
-            console.log(`✅ Sincronizado gasto:`, gasto.id);
-            if (gasto.id) removeOfflineGasto(gasto.id);
-          } else {
-            console.error(`❌ Error sincronizando gasto ${gasto.id}:`, response.statusText);
-          }
-        } catch (error) {
-          console.error(`❌ Error de red sincronizando gasto ${gasto.id}:`, error);
-        }
+        await syncSingleGasto(gasto);
       }
 
       // Sincronizar ingresos
       for (const ingreso of ingresos) {
-        try {
-          const response = await fetch('/api/ingresos', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              monto: ingreso.monto,
-              fecha: ingreso.fecha,
-              descripcion: ingreso.descripcion,
-              categoria_id: ingreso.categoria_id,
-              tipo_ingreso: ingreso.tipo_ingreso,
-              recurrente: ingreso.recurrente,
-              frecuencia: ingreso.frecuencia,
-              fecha_fin: ingreso.fecha_fin
-            }),
-          });
-
-          if (response.ok) {
-            console.log(`✅ Sincronizado ingreso:`, ingreso.id);
-            if (ingreso.id) removeOfflineIngreso(ingreso.id);
-          } else {
-            console.error(`❌ Error sincronizando ingreso ${ingreso.id}:`, response.statusText);
-          }
-        } catch (error) {
-          console.error(`❌ Error de red sincronizando ingreso ${ingreso.id}:`, error);
-        }
+        await syncSingleIngreso(ingreso);
       }
 
       // Actualizar timestamp de última sincronización
