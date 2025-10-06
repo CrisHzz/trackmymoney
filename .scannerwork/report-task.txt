@@ -2,5 +2,5 @@ projectKey=trackmymoney
 serverUrl=http://localhost:9000
 serverVersion=25.9.0.112764
 dashboardUrl=http://localhost:9000/dashboard?id=trackmymoney
-ceTaskId=990740af-fe45-420b-8ddc-4141fd08823a
-ceTaskUrl=http://localhost:9000/api/ce/task?id=990740af-fe45-420b-8ddc-4141fd08823a
+ceTaskId=b3939159-bc42-41aa-a7cc-2a41a569d1be
+ceTaskUrl=http://localhost:9000/api/ce/task?id=b3939159-bc42-41aa-a7cc-2a41a569d1be
