@@ -1,0 +1,36 @@
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Archivos de entorno
+.env
+.env.local
+.env.test
+
+# Screenshots y videos de pruebas
+screenshots/
+videos/
+traces/
+
+# Node modules (por si acaso)
+node_modules/
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Resultados de pruebas
+test-results.json
+coverage/
+

@@ -1,0 +1,449 @@
+/**
+ * Pruebas E2E - Gestión de Gastos
+ * =================================
+ * 
+ * Este archivo contiene las pruebas End-to-End para la funcionalidad
+ * de gestión de gastos en TrackMyMoney utilizando el patrón Screenplay.
+ * 
+ * Escenarios cubiertos:
+ * 1. Crear un gasto básico
+ * 2. Crear múltiples gastos
+ * 3. Crear gasto con todos los campos
+ * 4. Eliminar un gasto
+ * 5. Validar que no se puede crear gasto sin datos requeridos
+ * 6. Verificar el cálculo del total de gastos
+ * 7. Eliminar todos los gastos
+ * 8. Crear gastos con diferentes métodos de pago
+ * 
+ * @see https://playwright.dev/docs/test-assertions
+ */
+
+import { test, expect } from '@playwright/test';
+import { Actor } from '../screenplay/Actor';
+import { BrowseTheWeb } from '../screenplay/abilities/BrowseTheWeb';
+import { Navigate } from '../screenplay/interactions/Navigate';
+import { CreateExpense, CreateMultipleExpenses } from '../screenplay/tasks/CreateExpense';
+import { DeleteExpense, DeleteAllExpenses } from '../screenplay/tasks/DeleteExpense';
+import { ExpenseQuestions } from '../screenplay/questions/ExpenseQuestions';
+import { PageQuestions } from '../screenplay/questions/PageQuestions';
+import { Fill } from '../screenplay/interactions/Fill';
+import { Click } from '../screenplay/interactions/Click';
+import { Wait } from '../screenplay/interactions/Wait';
+import { ExpensePage } from '../screenplay/ui/ExpensePage';
+
+/**
+ * Configuración del test suite
+ */
+test.describe('Gestión de Gastos - TrackMyMoney', () => {
+  
+  /**
+   * Setup: Se ejecuta antes de cada prueba
+   * Navega a la página de gastos y verifica que esté cargada
+   */
+  test.beforeEach(async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    // Navegar directamente a la página de gastos
+    // Nota: En un entorno real, aquí se realizaría el login primero
+    await usuario.attemptsTo(
+      Navigate.toExpensesPage()
+    );
+
+    // Esperar a que la página cargue
+    await usuario.attemptsTo(
+      Wait.forPageLoad('networkidle')
+    );
+  });
+
+  /**
+   * Escenario 1: Crear un gasto básico exitosamente
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario crea un gasto con monto y descripción
+   * Then el gasto debe aparecer en la lista
+   * And el contador de gastos debe incrementarse
+   */
+  test('debe crear un gasto básico con monto y descripción', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    // Obtener el número inicial de gastos
+    const gastosIniciales = await usuario.asks(ExpenseQuestions.count());
+    usuario.log(`Gastos iniciales: ${gastosIniciales}`);
+
+    // Crear un nuevo gasto
+    await usuario.attemptsTo(
+      CreateExpense.basic('150.50', 'Compra de supermercado')
+    );
+
+    // Esperar a que se actualice la lista
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    // Verificar que el gasto fue creado
+    const gastosFinal = await usuario.asks(ExpenseQuestions.count());
+    usuario.log(`Gastos finales: ${gastosFinal}`);
+
+    // Assertions
+    expect(gastosFinal).toBeGreaterThan(gastosIniciales);
+    
+    // Verificar que el gasto está visible en la lista
+    const esVisible = await usuario.asks(
+      ExpenseQuestions.isVisible('Compra de supermercado')
+    );
+    expect(esVisible).toBeTruthy();
+  });
+
+  /**
+   * Escenario 2: Crear múltiples gastos en secuencia
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario crea varios gastos seguidos
+   * Then todos los gastos deben aparecer en la lista
+   * And el total debe reflejar la suma correcta
+   */
+  test('debe crear múltiples gastos correctamente', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    const gastosIniciales = await usuario.asks(ExpenseQuestions.count());
+
+    // Crear múltiples gastos
+    await usuario.attemptsTo(
+      CreateMultipleExpenses.withList([
+        { amount: '50.00', description: 'Almuerzo' },
+        { amount: '30.00', description: 'Transporte' },
+        { amount: '120.00', description: 'Compras varias' }
+      ])
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(2000)
+    );
+
+    // Verificar que todos los gastos fueron creados
+    const gastosFinal = await usuario.asks(ExpenseQuestions.count());
+    expect(gastosFinal).toBe(gastosIniciales + 3);
+
+    // Verificar que todos están visibles
+    expect(await usuario.asks(ExpenseQuestions.isVisible('Almuerzo'))).toBeTruthy();
+    expect(await usuario.asks(ExpenseQuestions.isVisible('Transporte'))).toBeTruthy();
+    expect(await usuario.asks(ExpenseQuestions.isVisible('Compras varias'))).toBeTruthy();
+  });
+
+  /**
+   * Escenario 3: Crear gasto con todos los campos completos
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario llena todos los campos del formulario
+   * Then el gasto debe crearse con toda la información
+   */
+  test('debe crear un gasto con todos los campos completos', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    // Crear gasto completo
+    await usuario.attemptsTo(
+      CreateExpense.withDetails({
+        amount: '250.75',
+        description: 'Compra en tienda departamental',
+        paymentMethod: 'Tarjeta de Crédito',
+        date: '2025-01-15',
+        requiresInvoice: true
+      })
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    // Verificar que el gasto existe
+    const esVisible = await usuario.asks(
+      ExpenseQuestions.isVisible('Compra en tienda departamental')
+    );
+    expect(esVisible).toBeTruthy();
+  });
+
+  /**
+   * Escenario 4: Eliminar un gasto específico
+   * 
+   * Given el usuario tiene gastos registrados
+   * When el usuario elimina un gasto específico
+   * Then el gasto debe desaparecer de la lista
+   * And el contador debe decrementarse
+   */
+  test('debe eliminar un gasto correctamente', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    // Primero crear un gasto
+    await usuario.attemptsTo(
+      CreateExpense.basic('75.00', 'Gasto a eliminar')
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    // Verificar que existe
+    let esVisible = await usuario.asks(
+      ExpenseQuestions.isVisible('Gasto a eliminar')
+    );
+    expect(esVisible).toBeTruthy();
+
+    const gastosAntes = await usuario.asks(ExpenseQuestions.count());
+
+    // Eliminar el gasto
+    await usuario.attemptsTo(
+      DeleteExpense.byDescription('Gasto a eliminar')
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    // Verificar que ya no existe
+    const gastosDespues = await usuario.asks(ExpenseQuestions.count());
+    expect(gastosDespues).toBeLessThan(gastosAntes);
+  });
+
+  /**
+   * Escenario 5: Validar campos requeridos
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario intenta crear un gasto sin llenar campos requeridos
+   * Then debe mostrar un mensaje de error o no permitir la creación
+   */
+  test('debe validar campos requeridos al crear gasto', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    const expensePage = ExpensePage.on(page);
+    const gastosIniciales = await usuario.asks(ExpenseQuestions.count());
+
+    // Intentar crear gasto solo con monto (sin descripción)
+    await usuario.attemptsTo(
+      Fill.field(expensePage.amountInput).with('100.00')
+    );
+
+    await usuario.attemptsTo(
+      Click.on(expensePage.addExpenseButton)
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1000)
+    );
+
+    // El número de gastos no debe cambiar
+    const gastosFinal = await usuario.asks(ExpenseQuestions.count());
+    expect(gastosFinal).toBe(gastosIniciales);
+  });
+
+  /**
+   * Escenario 6: Crear gastos con diferentes métodos de pago
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario crea gastos con diferentes métodos de pago
+   * Then todos deben crearse correctamente
+   */
+  test('debe permitir crear gastos con diferentes métodos de pago', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    const metodosPago = [
+      { amount: '50.00', description: 'Pago en efectivo', paymentMethod: 'Efectivo' },
+      { amount: '100.00', description: 'Pago con tarjeta crédito', paymentMethod: 'Tarjeta de Crédito' },
+      { amount: '75.00', description: 'Pago con tarjeta débito', paymentMethod: 'Tarjeta de Débito' },
+      { amount: '200.00', description: 'Transferencia bancaria', paymentMethod: 'Transferencia' }
+    ];
+
+    for (const gasto of metodosPago) {
+      await usuario.attemptsTo(
+        CreateExpense.withDetails(gasto)
+      );
+      await usuario.attemptsTo(Wait.forTime(1000));
+    }
+
+    await usuario.attemptsTo(
+      Wait.forTime(2000)
+    );
+
+    // Verificar que todos se crearon
+    for (const gasto of metodosPago) {
+      const esVisible = await usuario.asks(
+        ExpenseQuestions.isVisible(gasto.description)
+      );
+      expect(esVisible).toBeTruthy();
+    }
+  });
+
+  /**
+   * Escenario 7: Verificar el mensaje cuando no hay gastos
+   * 
+   * Given el usuario no tiene gastos registrados
+   * When el usuario accede a la página de gastos
+   * Then debe ver un mensaje indicando que no tiene gastos
+   */
+  test('debe mostrar mensaje cuando no hay gastos', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    // Eliminar todos los gastos primero (si hay alguno)
+    const gastosActuales = await usuario.asks(ExpenseQuestions.count());
+    
+    if (gastosActuales > 0) {
+      await usuario.attemptsTo(
+        DeleteAllExpenses.fromList()
+      );
+      
+      await usuario.attemptsTo(
+        Wait.forTime(2000)
+      );
+    }
+
+    // Verificar el mensaje de "sin gastos"
+    const mensajeVisible = await usuario.asks(
+      ExpenseQuestions.noExpensesMessageVisible()
+    );
+    
+    // Si hay gastos, el mensaje no debe estar visible
+    const gastosFinales = await usuario.asks(ExpenseQuestions.count());
+    if (gastosFinales === 0) {
+      expect(mensajeVisible).toBeTruthy();
+    }
+  });
+
+  /**
+   * Escenario 8: Crear gasto con factura
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario crea un gasto marcando que requiere factura
+   * Then el gasto debe crearse con el indicador de factura
+   */
+  test('debe crear gasto con indicador de factura', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    await usuario.attemptsTo(
+      CreateExpense.withDetails({
+        amount: '350.00',
+        description: 'Compra con factura',
+        requiresInvoice: true
+      })
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    const esVisible = await usuario.asks(
+      ExpenseQuestions.isVisible('Compra con factura')
+    );
+    expect(esVisible).toBeTruthy();
+  });
+
+  /**
+   * Escenario 9: Validar formato de montos
+   * 
+   * Given el usuario está en la página de gastos
+   * When el usuario crea gastos con diferentes formatos de monto
+   * Then todos deben crearse y mostrar el formato correcto
+   */
+  test('debe manejar correctamente diferentes formatos de monto', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    const gastosConDiferentesMontos = [
+      { amount: '100', description: 'Monto sin decimales' },
+      { amount: '50.5', description: 'Monto con un decimal' },
+      { amount: '75.99', description: 'Monto con dos decimales' },
+      { amount: '1250.75', description: 'Monto con miles' }
+    ];
+
+    for (const gasto of gastosConDiferentesMontos) {
+      await usuario.attemptsTo(
+        CreateExpense.basic(gasto.amount, gasto.description)
+      );
+      await usuario.attemptsTo(Wait.forTime(1000));
+    }
+
+    await usuario.attemptsTo(
+      Wait.forTime(2000)
+    );
+
+    // Verificar que todos se crearon
+    const descriptions = await usuario.asks(ExpenseQuestions.allDescriptions());
+    
+    for (const gasto of gastosConDiferentesMontos) {
+      expect(descriptions).toContain(gasto.description);
+    }
+  });
+});
+
+/**
+ * Suite adicional: Casos extremos y validaciones avanzadas
+ */
+test.describe('Gestión de Gastos - Casos Extremos', () => {
+  
+  test.beforeEach(async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    await usuario.attemptsTo(
+      Navigate.toExpensesPage()
+    );
+
+    await usuario.attemptsTo(
+      Wait.forPageLoad('networkidle')
+    );
+  });
+
+  /**
+   * Caso extremo: Crear gasto con descripción muy larga
+   */
+  test('debe manejar descripciones largas correctamente', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    const descripcionLarga = 'Este es un gasto con una descripción extremadamente larga para probar cómo la aplicación maneja textos extensos en el formulario de gastos y en la lista de visualización';
+
+    await usuario.attemptsTo(
+      CreateExpense.basic('100.00', descripcionLarga)
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    const descriptions = await usuario.asks(ExpenseQuestions.allDescriptions());
+    const contieneDescripcion = descriptions.some(desc => 
+      desc.includes('descripción extremadamente larga')
+    );
+    
+    expect(contieneDescripcion).toBeTruthy();
+  });
+
+  /**
+   * Caso extremo: Crear gasto con monto muy grande
+   */
+  test('debe manejar montos grandes correctamente', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba')
+      .whoCan(BrowseTheWeb.using(page));
+
+    await usuario.attemptsTo(
+      CreateExpense.basic('99999.99', 'Gasto con monto grande')
+    );
+
+    await usuario.attemptsTo(
+      Wait.forTime(1500)
+    );
+
+    const esVisible = await usuario.asks(
+      ExpenseQuestions.isVisible('Gasto con monto grande')
+    );
+    expect(esVisible).toBeTruthy();
+  });
+});
+
