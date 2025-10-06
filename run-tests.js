@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Script para ejecutar todas las pruebas con assert nativo
+ * Script para ejecutar todas las pruebas (assert nativo + Jest)
  */
 
 const { execSync } = require('child_process');
@@ -16,7 +16,7 @@ const testFiles = [
   'CP009-CP010-CategoryManagement.test.ts'
 ];
 
-console.log('🧪 Ejecutando todas las pruebas con assert nativo...\n');
+console.log('🧪 Ejecutando todas las pruebas (assert nativo + Jest)...\n');
 
 let totalTests = 0;
 let passedTests = 0;
@@ -77,18 +77,64 @@ for (const testFile of testFiles) {
   }
 }
 
+// Ejecutar pruebas de Jest
+console.log('\n🧪 Ejecutando pruebas de Jest (src/lib/__tests__)...\n');
 console.log('═'.repeat(60));
-console.log('📊 RESUMEN DE RESULTADOS:');
-console.log(`   Total de archivos: ${testFiles.length}`);
-console.log(`   Total de tests: ${totalTests}`);
-console.log(`   ✅ Tests exitosos: ${passedTests}`);
-console.log(`   ❌ Tests fallidos: ${failedTests}`);
-console.log(`   📈 Porcentaje de éxito: ${totalTests > 0 ? ((passedTests / totalTests) * 100).toFixed(1) : 0}%`);
 
-if (failedTests === 0) {
+let jestPassed = 0;
+let jestFailed = 0;
+let jestTotal = 0;
+
+try {
+  const jestOutput = execSync('npx jest src/lib/__tests__ --verbose', { 
+    encoding: 'utf8'
+  });
+  
+  console.log(jestOutput);
+  
+  // Extraer estadísticas de Jest
+  const jestSummaryMatch = jestOutput.match(/Tests:\s+(\d+)\s+passed(?:,\s+(\d+)\s+failed)?/);
+  if (jestSummaryMatch) {
+    jestPassed = parseInt(jestSummaryMatch[1]) || 0;
+    jestFailed = parseInt(jestSummaryMatch[2]) || 0;
+    jestTotal = jestPassed + jestFailed;
+  }
+  
+  console.log(`\n✅ Pruebas Jest: ${jestPassed} exitosas, ${jestFailed} fallidas (${jestTotal} total)\n`);
+  
+} catch (error) {
+  const jestOutput = error.stdout?.toString() || '';
+  console.log(jestOutput);
+  
+  // Intentar extraer estadísticas incluso si Jest falló
+  const jestSummaryMatch = jestOutput.match(/Tests:\s+(\d+)\s+passed(?:,\s+(\d+)\s+failed)?/);
+  if (jestSummaryMatch) {
+    jestPassed = parseInt(jestSummaryMatch[1]) || 0;
+    jestFailed = parseInt(jestSummaryMatch[2]) || 0;
+    jestTotal = jestPassed + jestFailed;
+  }
+  
+  console.log(`\n❌ Pruebas Jest: ${jestPassed} exitosas, ${jestFailed} fallidas (error en ejecución)\n`);
+}
+
+// Combinar resultados
+const totalAllTests = totalTests + jestTotal;
+const totalAllPassed = passedTests + jestPassed;
+const totalAllFailed = failedTests + jestFailed;
+
+console.log('═'.repeat(60));
+console.log('📊 RESUMEN GENERAL DE RESULTADOS:');
+console.log(`   📋 Pruebas de escenarios: ${testFiles.length} archivos, ${totalTests} tests`);
+console.log(`   🧪 Pruebas de Jest: ${jestTotal} tests`);
+console.log(`   📈 Total de tests: ${totalAllTests}`);
+console.log(`   ✅ Tests exitosos: ${totalAllPassed}`);
+console.log(`   ❌ Tests fallidos: ${totalAllFailed}`);
+console.log(`   📊 Porcentaje de éxito: ${totalAllTests > 0 ? ((totalAllPassed / totalAllTests) * 100).toFixed(1) : 0}%`);
+
+if (totalAllFailed === 0) {
   console.log('\n🎉 ¡Todas las pruebas pasaron exitosamente!');
   process.exit(0);
 } else {
-  console.log(`\n⚠️  ${failedTests} pruebas fallaron de ${totalTests} total.`);
+  console.log(`\n⚠️  ${totalAllFailed} pruebas fallaron de ${totalAllTests} total.`);
   process.exit(1);
 }
