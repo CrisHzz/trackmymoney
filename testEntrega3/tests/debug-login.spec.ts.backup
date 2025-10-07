@@ -1,0 +1,179 @@
+/**
+ * Debug Login - Investigar estructura de página de login
+ * ======================================================
+ * 
+ * Esta prueba ayuda a identificar los selectores correctos
+ * para la página de login de Clerk.
+ */
+
+import { test, expect } from '@playwright/test';
+
+test.describe('Debug Login Structure', () => {
+  
+  test('debe capturar la estructura de la página de login', async ({ page }) => {
+    // Navegar a la página de login
+    await page.goto('http://localhost:3000/pages/sign-in');
+    await page.waitForLoadState('networkidle');
+
+    console.log('🔍 URL actual:', page.url());
+    console.log('📄 Título:', await page.title());
+
+    // Tomar screenshot para ver la página
+    await page.screenshot({ 
+      path: 'testEntrega3/debug-login-structure.png',
+      fullPage: true 
+    });
+
+    // Capturar HTML de la página
+    const html = await page.content();
+    console.log('📝 HTML length:', html.length);
+
+    // Buscar todos los inputs
+    const allInputs = await page.locator('input').all();
+    console.log(`📋 Total inputs encontrados: ${allInputs.length}`);
+    
+    for (let i = 0; i < allInputs.length; i++) {
+      const input = allInputs[i];
+      const type = await input.getAttribute('type').catch(() => 'unknown');
+      const name = await input.getAttribute('name').catch(() => 'no-name');
+      const placeholder = await input.getAttribute('placeholder').catch(() => 'no-placeholder');
+      const id = await input.getAttribute('id').catch(() => 'no-id');
+      const className = await input.getAttribute('class').catch(() => 'no-class');
+      const isVisible = await input.isVisible().catch(() => false);
+      
+      console.log(`  Input ${i + 1}:`, {
+        type,
+        name,
+        placeholder,
+        id,
+        className: className?.substring(0, 50) + '...',
+        isVisible
+      });
+    }
+
+    // Buscar todos los botones
+    const allButtons = await page.locator('button').all();
+    console.log(`🔘 Total botones encontrados: ${allButtons.length}`);
+    
+    for (let i = 0; i < allButtons.length; i++) {
+      const button = allButtons[i];
+      const type = await button.getAttribute('type').catch(() => 'unknown');
+      const text = await button.textContent().catch(() => 'no-text');
+      const className = await button.getAttribute('class').catch(() => 'no-class');
+      const isVisible = await button.isVisible().catch(() => false);
+      const isEnabled = await button.isEnabled().catch(() => false);
+      
+      console.log(`  Button ${i + 1}:`, {
+        type,
+        text: text?.trim(),
+        className: className?.substring(0, 50) + '...',
+        isVisible,
+        isEnabled
+      });
+    }
+
+    // Buscar elementos con texto específico
+    const continueElements = await page.getByText(/continuar|continue/i).all();
+    console.log(`🔍 Elementos con "Continuar": ${continueElements.length}`);
+    
+    for (let i = 0; i < continueElements.length; i++) {
+      const element = continueElements[i];
+      const tagName = await element.evaluate(el => el.tagName);
+      const text = await element.textContent().catch(() => 'no-text');
+      const isVisible = await element.isVisible().catch(() => false);
+      
+      console.log(`  Continue ${i + 1}:`, {
+        tagName,
+        text: text?.trim(),
+        isVisible
+      });
+    }
+
+    // Buscar formularios
+    const forms = await page.locator('form').all();
+    console.log(`📋 Total formularios: ${forms.length}`);
+    
+    for (let i = 0; i < forms.length; i++) {
+      const form = forms[i];
+      const action = await form.getAttribute('action').catch(() => 'no-action');
+      const method = await form.getAttribute('method').catch(() => 'no-method');
+      const isVisible = await form.isVisible().catch(() => false);
+      
+      console.log(`  Form ${i + 1}:`, {
+        action,
+        method,
+        isVisible
+      });
+    }
+
+    // Verificar si hay iframes (Clerk a veces usa iframes)
+    const iframes = await page.locator('iframe').all();
+    console.log(`🖼️ Total iframes: ${iframes.length}`);
+    
+    for (let i = 0; i < iframes.length; i++) {
+      const iframe = iframes[i];
+      const src = await iframe.getAttribute('src').catch(() => 'no-src');
+      const isVisible = await iframe.isVisible().catch(() => false);
+      
+      console.log(`  Iframe ${i + 1}:`, {
+        src,
+        isVisible
+      });
+    }
+
+    // Guardar el HTML completo para análisis
+    const fs = require('fs');
+    fs.writeFileSync('testEntrega3/debug-login-page.html', html);
+    console.log('💾 HTML guardado en: testEntrega3/debug-login-page.html');
+
+    // La prueba siempre pasa, solo es para debug
+    expect(true).toBeTruthy();
+  });
+
+  test('debe intentar interactuar con elementos visibles', async ({ page }) => {
+    await page.goto('http://localhost:3000/pages/sign-in');
+    await page.waitForLoadState('networkidle');
+
+    // Esperar un poco más para que Clerk cargue completamente
+    await page.waitForTimeout(3000);
+
+    console.log('🔍 Buscando elementos interactuables...');
+
+    // Buscar inputs visibles
+    const visibleInputs = await page.locator('input:visible').all();
+    console.log(`👁️ Inputs visibles: ${visibleInputs.length}`);
+
+    // Buscar botones visibles
+    const visibleButtons = await page.locator('button:visible').all();
+    console.log(`👁️ Botones visibles: ${visibleButtons.length}`);
+
+    // Si hay inputs visibles, intentar llenarlos
+    if (visibleInputs.length >= 2) {
+      console.log('✍️ Intentando llenar campos...');
+      
+      try {
+        await visibleInputs[0].fill('test@example.com');
+        console.log('✅ Primer campo llenado');
+        
+        await visibleInputs[1].fill('password123');
+        console.log('✅ Segundo campo llenado');
+        
+        // Buscar botón de submit visible
+        if (visibleButtons.length > 0) {
+          console.log('🔘 Intentando hacer clic en botón...');
+          await visibleButtons[0].click();
+          console.log('✅ Clic realizado');
+          
+          // Esperar respuesta
+          await page.waitForTimeout(2000);
+          console.log('📍 URL después del clic:', page.url());
+        }
+        
+      } catch (error) {
+        console.log('❌ Error al interactuar:', error.message);
+      }
+    }
+
+    expect(true).toBeTruthy();
+  });
+});

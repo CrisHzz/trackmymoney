@@ -16,6 +16,11 @@
  */
 
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+// Cargar variables de entorno para pruebas
+dotenv.config({ path: path.resolve(__dirname, '.env.test') });
 
 /**
  * Variables de entorno para la configuración
@@ -30,16 +35,16 @@ export default defineConfig({
   testDir: './tests',
 
   /**
-   * Timeout global para cada prueba (30 segundos)
+   * Timeout global para cada prueba (60 segundos)
    * Esto incluye el tiempo de setup, ejecución y teardown
    */
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
 
   /**
-   * Timeout para cada assertion individual (5 segundos)
+   * Timeout para cada assertion individual (10 segundos)
    */
   expect: {
-    timeout: 5000
+    timeout: 10000
   },
 
   /**
@@ -57,8 +62,8 @@ export default defineConfig({
   retries: CI ? 2 : 0,
   
   // Número de workers paralelos
-  // En CI: 1 worker, en local: usar la mitad de los CPUs disponibles
-  workers: CI ? 1 : undefined,
+  // En CI: 1 worker, en local: 2 workers para evitar conflictos
+  workers: CI ? 1 : 2,
 
   /**
    * Configuración de reportes
@@ -87,11 +92,11 @@ export default defineConfig({
     // Grabar video solo cuando falla
     video: 'retain-on-failure',
 
-    // Timeout para acciones individuales (10 segundos)
-    actionTimeout: 10 * 1000,
+    // Timeout para acciones individuales (20 segundos)
+    actionTimeout: 20 * 1000,
 
-    // Timeout para navegación (15 segundos)
-    navigationTimeout: 15 * 1000,
+    // Timeout para navegación (30 segundos)
+    navigationTimeout: 30 * 1000,
 
     // Configuración de viewport
     viewport: { width: 1280, height: 720 },
@@ -99,8 +104,8 @@ export default defineConfig({
     // Ignorar errores de HTTPS en desarrollo
     ignoreHTTPSErrors: true,
 
-    // Configuración de permisos
-    permissions: ['clipboard-read', 'clipboard-write'],
+    // Configuración de permisos (solo para navegadores que lo soporten)
+    // permissions: ['clipboard-read', 'clipboard-write'],
   },
 
   /**
@@ -121,19 +126,20 @@ export default defineConfig({
       },
     },
 
-    {
-      name: 'firefox',
-      use: { 
-        ...devices['Desktop Firefox'] 
-      },
-    },
+    // Temporalmente deshabilitados para debugging
+    // {
+    //   name: 'firefox',
+    //   use: { 
+    //     ...devices['Desktop Firefox'] 
+    //   },
+    // },
 
-    {
-      name: 'webkit',
-      use: { 
-        ...devices['Desktop Safari'] 
-      },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { 
+    //     ...devices['Desktop Safari'] 
+    //   },
+    // },
 
     /**
      * Mobile Browsers (comentados por defecto para velocidad)

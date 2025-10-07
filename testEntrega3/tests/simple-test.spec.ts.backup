@@ -1,0 +1,145 @@
+/**
+ * Prueba Simple - Test de Diagnóstico
+ * ====================================
+ * 
+ * Esta prueba simple ayuda a diagnosticar problemas de autenticación
+ * y navegación en TrackMyMoney.
+ */
+
+import { test, expect } from '@playwright/test';
+import { Actor } from '../screenplay/Actor';
+import { BrowseTheWeb } from '../screenplay/abilities/BrowseTheWeb';
+import { Navigate } from '../screenplay/interactions/Navigate';
+import { Login } from '../screenplay/tasks/Login';
+import { AuthBypass, DirectNavigation } from '../screenplay/tasks/AuthBypass';
+import { Wait } from '../screenplay/interactions/Wait';
+
+test.describe('Diagnóstico de Autenticación', () => {
+  
+  test('debe poder navegar a la página de login', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Diagnóstico')
+      .whoCan(BrowseTheWeb.using(page));
+
+    await usuario.attemptsTo(
+      Navigate.toLoginPage()
+    );
+
+    await usuario.attemptsTo(
+      Wait.forPageLoad('networkidle')
+    );
+
+    const url = page.url();
+    usuario.log(`URL actual: ${url}`);
+    
+    expect(url).toContain('/sign-in');
+    
+    // Verificar que los elementos de login están presentes
+    const emailInput = page.locator('input[type="email"], input[placeholder*="email"], input[placeholder*="correo"]').first();
+    const passwordInput = page.locator('input[type="password"]').first();
+    const submitButton = page.locator('button').filter({ hasText: /continuar|entrar|login/i }).first();
+    
+    expect(await emailInput.isVisible()).toBeTruthy();
+    expect(await passwordInput.isVisible()).toBeTruthy();
+    expect(await submitButton.isVisible()).toBeTruthy();
+  });
+
+  test('debe intentar login con credenciales de prueba', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Prueba Login')
+      .whoCan(BrowseTheWeb.using(page));
+
+    try {
+      // Usar credenciales específicas para prueba
+      // CAMBIA ESTAS CREDENCIALES POR LAS DE UN USUARIO REAL
+      await usuario.attemptsTo(
+        Login.withCredentials('miwaj37560@erynka.com', '2536182Pepito.')
+      );
+      
+      // Si llegamos aquí, el login fue exitoso
+      const url = page.url();
+      usuario.log(`✅ Login exitoso - URL: ${url}`);
+      expect(url).not.toContain('/sign-in');
+      
+    } catch (error) {
+      usuario.log(`❌ Login falló: ${error.message}`);
+      
+      // Capturar información de debug
+      const url = page.url();
+      const title = await page.title();
+      usuario.log(`📍 URL al fallar: ${url}`);
+      usuario.log(`📄 Título de página: ${title}`);
+      
+      // Capturar elementos visibles para debug
+      const visibleInputs = await page.locator('input:visible').count();
+      const visibleButtons = await page.locator('button:visible').count();
+      usuario.log(`👁️ Inputs visibles: ${visibleInputs}, Botones visibles: ${visibleButtons}`);
+      
+      // Tomar screenshot para debug
+      await page.screenshot({ 
+        path: 'testEntrega3/debug-login-failed-v2.png',
+        fullPage: true 
+      });
+      
+      // Re-lanzar el error para que la prueba falle
+      throw error;
+    }
+  });
+
+  test('debe poder acceder a página de gastos después de login', async ({ page }) => {
+    const usuario = Actor.named('Usuario de Gastos')
+      .whoCan(BrowseTheWeb.using(page));
+
+    // Intentar login
+    await usuario.attemptsTo(
+      Login.asTestUser()
+    );
+
+    // Navegar a gastos
+    await usuario.attemptsTo(
+      Navigate.toExpensesPage()
+    );
+
+    await usuario.attemptsTo(
+      Wait.forPageLoad('networkidle')
+    );
+
+    const url = page.url();
+    usuario.log(`URL de gastos: ${url}`);
+    
+    expect(url).toContain('/expenses');
+    
+    // Verificar que la página de gastos cargó
+    const pageTitle = page.locator('h1, h2').filter({ hasText: /gasto|expense/i }).first();
+    expect(await pageTitle.isVisible()).toBeTruthy();
+  });
+
+  test.skip('debe intentar bypass de autenticación (experimental)', async ({ page }) => {
+    const usuario = Actor.named('Usuario Bypass')
+      .whoCan(BrowseTheWeb.using(page));
+
+    try {
+      await usuario.attemptsTo(
+        AuthBypass.setupAuthenticatedState()
+      );
+
+      await usuario.attemptsTo(
+        DirectNavigation.toExpensesPage()
+      );
+
+      const url = page.url();
+      usuario.log(`URL después del bypass: ${url}`);
+      
+      if (url.includes('/expenses')) {
+        usuario.log('✅ Bypass exitoso');
+        expect(url).toContain('/expenses');
+      } else {
+        usuario.log('❌ Bypass falló - se requiere login real');
+        throw new Error('Bypass no funcionó');
+      }
+      
+    } catch (error) {
+      usuario.log(`Bypass falló: ${error.message}`);
+      // No fallar la prueba, solo reportar
+      test.skip();
+    }
+  });
+});
