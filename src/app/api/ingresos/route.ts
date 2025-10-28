@@ -1,36 +1,43 @@
 import { NextResponse } from 'next/server';
-import { currentUser } from '@clerk/nextjs/server';
+// import { currentUser } from '@clerk/nextjs/server';
 import { PrismaClient } from '@prisma/client';
 import { stringToDateForDB } from '@/lib/dateUtils';
 
 const prisma = new PrismaClient();
 
+// Usuario de desarrollo para modo sin Clerk
+const DEV_USER_EMAIL = 'dev@trackmymoney.com';
+
+// Función para obtener o crear usuario de desarrollo
+async function getOrCreateDevUser() {
+  let user = await prisma.usuario.findUnique({
+    where: { email: DEV_USER_EMAIL }
+  });
+
+  if (!user) {
+    user = await prisma.usuario.create({
+      data: {
+        email: DEV_USER_EMAIL,
+        nombre: 'Usuario de Desarrollo',
+        moneda_preferida: 'USD'
+      }
+    });
+  }
+
+  return user;
+}
 
 // GET all income for the authenticated user
 export async function GET() {
   try {
-    console.log('🔍 Iniciando GET /api/ingresos');
+    console.log('� Iniciando GET /api/ingresos (modo desarrollo)');
     
-    const user = await currentUser();
-    console.log('👤 Usuario actual:', user?.id);
-    
-    if (!user) {
-      console.log('❌ Usuario no autenticado');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // Obtener usuario de desarrollo
+    const user = await getOrCreateDevUser();
+    console.log('👤 Usuario de desarrollo:', user.id);
 
-    const userEmail = user.emailAddresses[0]?.emailAddress;
-    console.log('📧 Email del usuario:', userEmail);
-
-    if (!userEmail) {
-      console.log('❌ Email no encontrado');
-      return NextResponse.json({ error: 'Email not found' }, { status: 400 });
-    }
-
-    console.log('🔍 Buscando usuario en BD...');
-    const dbUser = await prisma.usuario.findFirst({
-      where: { email: userEmail }
-    });
+    console.log('🔍 Buscando ingresos en BD...');
+    const dbUser = user;
 
     console.log('👤 Usuario en BD:', dbUser?.id);
 
@@ -66,13 +73,14 @@ export async function GET() {
 // POST new income
 export async function POST(request: Request) {
   try {
-    console.log('📝 Iniciando POST /api/ingresos');
+    console.log('📝 Iniciando POST /api/ingresos (modo desarrollo)');
     
-    const user = await currentUser();
+    // Obtener usuario de desarrollo
+    const user = await getOrCreateDevUser();
     
     if (!user) {
-      console.log('❌ Usuario no autenticado');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      console.log('❌ Error obteniendo usuario de desarrollo');
+      return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
     }
 
     const body = await request.json();
@@ -96,26 +104,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
-    const userEmail = user.emailAddresses[0]?.emailAddress;
-    if (!userEmail) {
-      return NextResponse.json({ error: 'Email not found' }, { status: 400 });
-    }
-
-    // Buscar o crear usuario
-    let dbUser = await prisma.usuario.findFirst({
-      where: { email: userEmail }
-    });
-
-    if (!dbUser) {
-      console.log('👤 Creando nuevo usuario...');
-      dbUser = await prisma.usuario.create({
-        data: {
-          nombre: user.firstName || 'Usuario',
-          email: userEmail,
-          moneda_preferida: 'USD'
-        }
-      });
-    }
+    const dbUser = user;
 
     // Validar categoría si se proporciona
     if (categoria_id) {

@@ -1,26 +1,35 @@
 import { NextResponse } from 'next/server';
-import { currentUser } from '@clerk/nextjs/server';
+// import { currentUser } from '@clerk/nextjs/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET() {
-  try {
-    const user = await currentUser();
-    
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+// Usuario de desarrollo para modo sin Clerk
+const DEV_USER_EMAIL = 'dev@trackmymoney.com';
 
-    const dbUser = await prisma.usuario.findFirst({
-      where: { 
-        email: user.emailAddresses[0]?.emailAddress 
+// Función para obtener o crear usuario de desarrollo
+async function getOrCreateDevUser() {
+  let user = await prisma.usuario.findUnique({
+    where: { email: DEV_USER_EMAIL }
+  });
+
+  if (!user) {
+    user = await prisma.usuario.create({
+      data: {
+        email: DEV_USER_EMAIL,
+        nombre: 'Usuario de Desarrollo',
+        moneda_preferida: 'USD'
       }
     });
+  }
 
-    if (!dbUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
+  return user;
+}
+
+export async function GET() {
+  try {
+    // Obtener usuario de desarrollo
+    const dbUser = await getOrCreateDevUser();
 
     return NextResponse.json({ id: dbUser.id });
   } catch (error) {

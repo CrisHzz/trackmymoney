@@ -1,8 +1,27 @@
 import { NextResponse } from 'next/server';
-import { currentUser } from '@clerk/nextjs/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
+const DEV_USER_EMAIL = 'dev@trackmymoney.com';
+
+async function getOrCreateDevUser() {
+  let user = await prisma.usuario.findFirst({
+    where: { email: DEV_USER_EMAIL }
+  });
+
+  if (!user) {
+    user = await prisma.usuario.create({
+      data: {
+        email: DEV_USER_EMAIL,
+        nombre: 'Dev User',
+        moneda_preferida: 'USD'
+      }
+    });
+  }
+
+  return user;
+}
 
 // GET single expense
 export async function GET(
@@ -10,26 +29,12 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await currentUser();
-    
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const dbUser = await prisma.usuario.findFirst({
-      where: { 
-        email: user.emailAddresses[0]?.emailAddress 
-      }
-    });
-
-    if (!dbUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
+    const user = await getOrCreateDevUser();
 
     const gasto = await prisma.gasto.findUnique({
       where: {
         id: parseInt(params.id),
-        usuario_id: dbUser.id
+        usuario_id: user.id
       },
       include: {
         categoria: true
@@ -52,21 +57,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await currentUser();
-    
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const dbUser = await prisma.usuario.findFirst({
-      where: { 
-        email: user.emailAddresses[0]?.emailAddress 
-      }
-    });
-
-    if (!dbUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
+    const user = await getOrCreateDevUser();
 
     const body = await request.json();
     const { monto, fecha, descripcion, categoria_id, factura, metodo_pago } = body;
@@ -74,7 +65,7 @@ export async function PUT(
     const gasto = await prisma.gasto.update({
       where: {
         id: parseInt(params.id),
-        usuario_id: dbUser.id
+        usuario_id: user.id
       },
       data: {
         monto,
@@ -98,33 +89,18 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const user = await currentUser();
+    const user = await getOrCreateDevUser();
     console.log('Current user for DELETE:', user);
-    
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Buscar el usuario por email
-    const dbUser = await prisma.usuario.findFirst({
-      where: { 
-        email: user.emailAddresses[0]?.emailAddress 
-      }
-    });
-
-    if (!dbUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
 
     console.log('Deleting expense:', {
       id: parseInt(params.id),
-      usuario_id: dbUser.id
+      usuario_id: user.id
     });
 
     await prisma.gasto.delete({
       where: {
         id: parseInt(params.id),
-        usuario_id: dbUser.id
+        usuario_id: user.id
       }
     });
 
