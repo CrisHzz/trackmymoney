@@ -17,6 +17,10 @@
     "test:e2e:headed": "playwright test --config=testEntrega3/playwright.config.ts --headed",
     "test:e2e:debug": "playwright test --config=testEntrega3/playwright.config.ts --debug",
     "test:e2e:report": "playwright show-report testEntrega3/playwright-report",
+    "test:bdd": "cucumber-js --config=cucumber.config.js",
+    "test:bdd:watch": "cucumber-js --config=cucumber.config.js --watch",
+    "test:bdd:report": "echo 'Reportes disponibles en tests/bdd/reports/'",
+    "test:all": "npm run test:jest && npm run test:bdd",
     "postinstall": "prisma generate && prisma db push",
     "db:seed": "npx tsx prisma/seed.ts"
   },
@@ -40,9 +44,14 @@
     "swagger-ui-react": "^5.20.8"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^10.3.1",
     "@jest/globals": "^29.7.0",
     "@playwright/test": "^1.48.2",
     "@prisma/client": "^6.16.3",
+    "@serenity-js/console-reporter": "^3.25.4",
+    "@serenity-js/core": "^3.25.4",
+    "@serenity-js/cucumber": "^3.25.4",
+    "@serenity-js/serenity-bdd": "^3.25.4",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",
@@ -63,6 +72,7 @@
     "prisma": "^6.16.3",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "tsx": "^4.20.5",
     "typescript": "^5"
   }
