@@ -69,10 +69,10 @@ export interface TestDataStore {
 export class BDDWorld extends World {
   // Estado del usuario actual
   public currentUser: MockUser | null = null;
-  
+
   // Última respuesta de API recibida
   public lastResponse: APIResponse | null = null;
-  
+
   // Almacén de datos de prueba
   public testData: TestDataStore = {
     gastos: [],
@@ -81,15 +81,15 @@ export class BDDWorld extends World {
     usuarios: [],
     lastCreatedId: undefined
   };
-  
+
   // Errores de validación capturados
   public errors: ValidationError[] = [];
-  
+
   // Utilidades y clientes
   public apiClient: APIClient;
   public mockManager: MockManager;
   public dataBuilder: TestDataBuilder;
-  
+
   // Configuración del mundo
   public config: {
     apiBaseUrl: string;
@@ -99,30 +99,30 @@ export class BDDWorld extends World {
 
   constructor(options: IWorldOptions) {
     super(options);
-    
+
     // Configuración desde parámetros del mundo
     this.config = {
       apiBaseUrl: options.parameters?.apiBaseUrl || 'http://localhost:3000/api',
       timeout: options.parameters?.timeout || 10000,
       retries: options.parameters?.retries || 1
     };
-    
+
     // Inicializar utilidades
     this.apiClient = new APIClient(this);
     this.mockManager = new MockManager(this);
     this.dataBuilder = new TestDataBuilder();
-    
+
     // Log de inicialización
     console.log('🌍 BDD World inicializado para nuevo escenario');
   }
-  
+
   /**
    * Resetea el estado del mundo
    * Llamado automáticamente entre escenarios
    */
   public reset(): void {
     console.log('🔄 Reseteando BDD World...');
-    
+
     this.currentUser = null;
     this.lastResponse = null;
     this.errors = [];
@@ -133,11 +133,11 @@ export class BDDWorld extends World {
       usuarios: [],
       lastCreatedId: undefined
     };
-    
+
     // Resetear mocks
     this.mockManager.resetAllMocks();
   }
-  
+
   /**
    * Configura un usuario autenticado para el escenario
    */
@@ -155,29 +155,29 @@ export class BDDWorld extends World {
       },
       ...userData
     };
-    
+
     // Configurar mocks para este usuario
     this.mockManager.setupAuthenticatedUser(this.currentUser);
-    
+
     console.log('👤 Usuario autenticado configurado:', this.currentUser.email);
   }
-  
+
   /**
    * Configura un usuario no autenticado
    */
   public setUnauthenticatedUser(): void {
     this.currentUser = null;
     this.mockManager.setupUnauthenticatedUser();
-    
+
     console.log('🚫 Usuario no autenticado configurado');
   }
-  
+
   /**
    * Almacena la última respuesta de API
    */
   public setLastResponse(response: APIResponse): void {
     this.lastResponse = response;
-    
+
     // Si hay errores, extraerlos
     if (response.error) {
       this.errors.push({
@@ -187,7 +187,7 @@ export class BDDWorld extends World {
       });
     }
   }
-  
+
   /**
    * Verifica si el último request fue exitoso
    */
@@ -195,14 +195,14 @@ export class BDDWorld extends World {
     if (!this.lastResponse) return false;
     return this.lastResponse.status >= 200 && this.lastResponse.status < 300;
   }
-  
+
   /**
    * Obtiene el último error capturado
    */
   public getLastError(): string | undefined {
     return this.lastResponse?.error || this.errors[this.errors.length - 1]?.message;
   }
-  
+
   /**
    * Almacena datos de prueba creados
    */
@@ -218,13 +218,13 @@ export class BDDWorld extends World {
         this.testData.categorias.push(data);
         break;
     }
-    
+
     // Almacenar último ID creado si existe
     if (data.id) {
       this.testData.lastCreatedId = data.id;
     }
   }
-  
+
   /**
    * Obtiene datos de prueba por tipo
    */
@@ -240,14 +240,14 @@ export class BDDWorld extends World {
         return [];
     }
   }
-  
+
   /**
    * Logging helper para debugging
    */
   public logMessage(message: string, data?: any): void {
     console.log(`🧪 [BDD] ${message}`, data ? JSON.stringify(data, null, 2) : '');
   }
-  
+
   // Alias para compatibilidad
   public log = this.logMessage;
 }

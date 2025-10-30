@@ -1,0 +1,860 @@
+[
+  {
+    "description": "  Como usuario de TrackMyMoney\n  Quiero registrar y consultar mis gastos\n  Para llevar control de mis finanzas",
+    "elements": [
+      {
+        "description": "",
+        "id": "gestión-básica-de-gastos;registrar-un-gasto-exitosamente",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Registrar un gasto exitosamente",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1407400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9290099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "registro un gasto de \"50.00\" en \"Comida\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9684299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2085699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "el elemento debe tener monto \"50.00\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:210"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3089799
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 722299
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "gestión-básica-de-gastos;consultar-gastos-cuando-no-hay-registros",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Consultar gastos cuando no hay registros",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 550699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 678299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "consulto mis gastos",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1532000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 600099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "debo ver una lista vacía",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:200"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1610599
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 585199
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "gestión-básica-de-gastos",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Gestión básica de gastos",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\01-gastos-basicos.feature"
+  },
+  {
+    "description": "  Como usuario de TrackMyMoney\n  Quiero registrar y consultar mis ingresos\n  Para llevar control de mis finanzas",
+    "elements": [
+      {
+        "description": "",
+        "id": "gestión-básica-de-ingresos;registrar-un-ingreso-exitosamente",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Registrar un ingreso exitosamente",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 525999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 539800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "registro un ingreso de \"1000.00\" como \"Salario\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3088800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 544399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "el elemento debe tener monto \"1000.00\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:210"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 708099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 460399
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "gestión-básica-de-ingresos;consultar-ingresos-cuando-no-hay-registros",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Consultar ingresos cuando no hay registros",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 722699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 889400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "consulto mis ingresos",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:108"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1559699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 450800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "debo ver una lista vacía",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:200"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 489799
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 452800
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "gestión-básica-de-ingresos",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Gestión básica de ingresos",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\02-ingresos-basicos.feature"
+  },
+  {
+    "description": "  Como usuario de TrackMyMoney\n  Quiero crear y consultar categorías\n  Para organizar mis gastos e ingresos",
+    "elements": [
+      {
+        "description": "",
+        "id": "gestión-básica-de-categorías;crear-una-categoría-exitosamente",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Crear una categoría exitosamente",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 425900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 456199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "creo una categoría \"Transporte\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:128"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2805999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 411699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "el elemento debe tener nombre \"Transporte\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:221"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2161900
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 274999
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "gestión-básica-de-categorías;consultar-categorías-cuando-no-hay-registros",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Consultar categorías cuando no hay registros",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 599999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 13,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 501800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 14,
+            "name": "consulto mis categorías",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:156"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1327099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 525200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "debo ver una lista vacía",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:200"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 531699
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 397199
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "gestión-básica-de-categorías",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Gestión básica de categorías",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\03-categorias-basicas.feature"
+  },
+  {
+    "description": "  Como sistema de TrackMyMoney\n  Quiero validar que solo usuarios autenticados accedan\n  Para mantener la seguridad de los datos",
+    "elements": [
+      {
+        "description": "",
+        "id": "control-de-autenticación;usuario-no-autenticado-intenta-registrar-gasto",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Usuario no autenticado intenta registrar gasto",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 321599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "que no estoy autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 981600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "registro un gasto de \"25.00\" en \"Café\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 863499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 9,
+            "name": "debo recibir un error de autenticación",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:183"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1347399
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 279199
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "control-de-autenticación;usuario-no-autenticado-intenta-consultar-gastos",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "Usuario no autenticado intenta consultar gastos",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 360599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 12,
+            "name": "que no estoy autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:24"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 425599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "consulto mis gastos",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 400599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "debo recibir un error de autenticación",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:183"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 581700
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 406600
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "control-de-autenticación",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Control de autenticación",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\04-autenticacion.feature"
+  },
+  {
+    "description": "  Como usuario de TrackMyMoney\n  Quiero realizar un flujo completo de operaciones\n  Para validar que el sistema funciona integralmente",
+    "elements": [
+      {
+        "description": "",
+        "id": "flujo-completo-de-usuario;flujo-completo:-categoría,-gasto-e-ingreso",
+        "keyword": "Scenario",
+        "line": 6,
+        "name": "Flujo completo: categoría, gasto e ingreso",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 471400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 557499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 8,
+            "name": "creo una categoría \"Alimentación\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:128"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 741899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 9,
+            "name": "registro un gasto de \"30.00\" en \"Alimentación\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 644999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "registro un ingreso de \"500.00\" como \"Freelance\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 905499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 11,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 319999
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 292000
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "flujo-completo-de-usuario;consultar-datos-después-del-flujo-completo",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "Consultar datos después del flujo completo",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 399699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 14,
+            "name": "que soy un usuario autenticado",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 473399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "creo una categoría \"Entretenimiento\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:128"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 456100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "registro un gasto de \"75.00\" en \"Entretenimiento\"",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 545000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "consulto mis gastos",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:59"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 431499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "el registro debe ser exitoso",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 359300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "debo ver 1 elemento",
+            "match": {
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:190"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2063799
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 539899
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "flujo-completo-de-usuario",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Flujo completo de usuario",
+    "tags": [],
+    "uri": "tests\\bdd\\features\\05-flujo-completo.feature"
+  }
+]
