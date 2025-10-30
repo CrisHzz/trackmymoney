@@ -1,281 +1,198 @@
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TrackMyMoney - Reportes BDD Comparativos</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f5f5f5;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .header {
-      background: #2c3e50;
-      color: white;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    .reports {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .report-card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .report-card h2 {
-      margin-top: 0;
-      color: #2c3e50;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 20px 0;
-    }
-
-    .stat {
-      background: #ecf0f1;
-      padding: 15px;
-      border-radius: 4px;
-      text-align: center;
-    }
-
-    .stat-number {
-      font-size: 24px;
-      font-weight: bold;
-      color: #27ae60;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: #7f8c8d;
-    }
-
-    .scenarios {
-      margin-top: 20px;
-    }
-
-    .scenario {
-      background: #f8f9fa;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 4px;
-      border-left: 4px solid #27ae60;
-    }
-
-    .scenario-name {
-      font-weight: bold;
-      color: #2c3e50;
-    }
-
-    .scenario-steps {
-      font-size: 12px;
-      color: #7f8c8d;
-      margin-top: 5px;
-    }
-
-    .simple {
-      border-left-color: #3498db;
-    }
-
-    .advanced {
-      border-left-color: #e74c3c;
-    }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      color: #7f8c8d;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMyMoney - Reportes BDD Comparativos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .reports { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .report-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .report-card h2 { margin-top: 0; color: #2c3e50; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+        .stat { background: #ecf0f1; padding: 15px; border-radius: 4px; text-align: center; }
+        .stat-number { font-size: 24px; font-weight: bold; color: #27ae60; }
+        .stat-label { font-size: 12px; color: #7f8c8d; }
+        .scenarios { margin-top: 20px; }
+        .scenario { background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 4px; border-left: 4px solid #27ae60; }
+        .scenario-name { font-weight: bold; color: #2c3e50; }
+        .scenario-steps { font-size: 12px; color: #7f8c8d; margin-top: 5px; }
+        .simple { border-left-color: #3498db; }
+        .advanced { border-left-color: #e74c3c; }
+        .footer { text-align: center; margin-top: 40px; color: #7f8c8d; }
+    </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🧪 TrackMyMoney - Reportes BDD Comparativos</h1>
-      <p>Comparación entre configuración Simple vs Avanzada</p>
-      <p><strong>Generado:</strong> 30/10/2025, 0:00:13</p>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 TrackMyMoney - Reportes BDD Comparativos</h1>
+            <p>Comparación entre configuración Simple vs Avanzada</p>
+            <p><strong>Generado:</strong> 30/10/2025, 10:43:12</p>
+        </div>
+        
+        <div class="reports">
+            <div class="report-card">
+                <h2>📊 Cucumber Simple</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Escenarios</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">41</div>
+                        <div class="stat-label">Pasos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">47ms</div>
+                        <div class="stat-label">Duración</div>
+                    </div>
+                </div>
+                <div class="scenarios">
+                    
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Registrar un gasto exitosamente</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Consultar gastos cuando no hay registros</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Registrar un ingreso exitosamente</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Consultar ingresos cuando no hay registros</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Crear una categoría exitosamente</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Consultar categorías cuando no hay registros</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Usuario no autenticado intenta registrar gasto</div>
+          <div class="scenario-steps">3 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Usuario no autenticado intenta consultar gastos</div>
+          <div class="scenario-steps">3 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Flujo completo: categoría, gasto e ingreso</div>
+          <div class="scenario-steps">5 pasos</div>
+        </div>
+      
+        <div class="scenario simple">
+          <div class="scenario-name">✅ Consultar datos después del flujo completo</div>
+          <div class="scenario-steps">6 pasos</div>
+        </div>
+      
+                </div>
+                <p><strong>Características:</strong></p>
+                <ul>
+                    <li>⚡ Ejecución rápida</li>
+                    <li>📝 Logs básicos [BDD]</li>
+                    <li>🔧 Ideal para desarrollo</li>
+                </ul>
+            </div>
+            
+            <div class="report-card">
+                <h2>🎯 Cucumber Avanzado</h2>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Escenarios</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">41</div>
+                        <div class="stat-label">Pasos</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">23ms</div>
+                        <div class="stat-label">Duración</div>
+                    </div>
+                </div>
+                <div class="scenarios">
+                    
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Registrar un gasto exitosamente</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Consultar gastos cuando no hay registros</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Registrar un ingreso exitosamente</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Consultar ingresos cuando no hay registros</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Crear una categoría exitosamente</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Consultar categorías cuando no hay registros</div>
+          <div class="scenario-steps">4 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Usuario no autenticado intenta registrar gasto</div>
+          <div class="scenario-steps">3 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Usuario no autenticado intenta consultar gastos</div>
+          <div class="scenario-steps">3 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Flujo completo: categoría, gasto e ingreso</div>
+          <div class="scenario-steps">5 pasos</div>
+        </div>
+      
+        <div class="scenario advanced">
+          <div class="scenario-name">✅ Consultar datos después del flujo completo</div>
+          <div class="scenario-steps">6 pasos</div>
+        </div>
+      
+                </div>
+                <p><strong>Características:</strong></p>
+                <ul>
+                    <li>📊 Logs detallados [Serenity BDD]</li>
+                    <li>🎨 Interfaz mejorada</li>
+                    <li>📋 Mejor para demos</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🚀 <strong>Comandos:</strong> <code>npm run test:bdd</code> | <code>npm run test:bdd:serenity</code></p>
+            <p>📁 <strong>Reportes:</strong> tests/bdd/reports/</p>
+        </div>
     </div>
-
-    <div class="reports">
-      <div class="report-card">
-        <h2>📊 Cucumber Simple</h2>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">10</div>
-            <div class="stat-label">Escenarios</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">41</div>
-            <div class="stat-label">Pasos</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">74ms</div>
-            <div class="stat-label">Duración</div>
-          </div>
-        </div>
-        <div class="scenarios">
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Registrar un gasto exitosamente</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Consultar gastos cuando no hay registros</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Registrar un ingreso exitosamente</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Consultar ingresos cuando no hay registros</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Crear una categoría exitosamente</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Consultar categorías cuando no hay registros</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Usuario no autenticado intenta registrar gasto</div>
-            <div class="scenario-steps">3 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Usuario no autenticado intenta consultar gastos</div>
-            <div class="scenario-steps">3 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Flujo completo: categoría, gasto e ingreso</div>
-            <div class="scenario-steps">5 pasos</div>
-          </div>
-
-          <div class="scenario simple">
-            <div class="scenario-name">❌ Consultar datos después del flujo completo</div>
-            <div class="scenario-steps">6 pasos</div>
-          </div>
-
-        </div>
-        <p><strong>Características:</strong></p>
-        <ul>
-          <li>⚡ Ejecución rápida</li>
-          <li>📝 Logs básicos [BDD]</li>
-          <li>🔧 Ideal para desarrollo</li>
-        </ul>
-      </div>
-
-      <div class="report-card">
-        <h2>🎯 Cucumber Avanzado</h2>
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-number">10</div>
-            <div class="stat-label">Escenarios</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">41</div>
-            <div class="stat-label">Pasos</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">75ms</div>
-            <div class="stat-label">Duración</div>
-          </div>
-        </div>
-        <div class="scenarios">
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Registrar un gasto exitosamente</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Consultar gastos cuando no hay registros</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Registrar un ingreso exitosamente</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Consultar ingresos cuando no hay registros</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Crear una categoría exitosamente</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Consultar categorías cuando no hay registros</div>
-            <div class="scenario-steps">4 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Usuario no autenticado intenta registrar gasto</div>
-            <div class="scenario-steps">3 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Usuario no autenticado intenta consultar gastos</div>
-            <div class="scenario-steps">3 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Flujo completo: categoría, gasto e ingreso</div>
-            <div class="scenario-steps">5 pasos</div>
-          </div>
-
-          <div class="scenario advanced">
-            <div class="scenario-name">✅ Consultar datos después del flujo completo</div>
-            <div class="scenario-steps">6 pasos</div>
-          </div>
-
-        </div>
-        <p><strong>Características:</strong></p>
-        <ul>
-          <li>📊 Logs detallados [Serenity BDD]</li>
-          <li>🎨 Interfaz mejorada</li>
-          <li>📋 Mejor para demos</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer">
-      <p>🚀 <strong>Comandos:</strong> <code>npm run test:bdd</code> | <code>npm run test:bdd:serenity</code></p>
-      <p>📁 <strong>Reportes:</strong> tests/bdd/reports/</p>
-    </div>
-  </div>
 </body>
-
 </html>

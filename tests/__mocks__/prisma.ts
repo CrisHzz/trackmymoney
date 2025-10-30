@@ -1,15 +1,4 @@
-/**
- * Mock centralizado para Prisma Client
- * Implementa test doubles para todas las operaciones de base de datos
- * 
- * Principios aplicados:
- * - Test Doubles: Usa mocks y stubs para aislar dependencias
- * - FIRST: Independent - Los tests no dependen de una BD real
- */
-
 import { jest } from '@jest/globals';
-
-// Mock data para tests
 export const mockUsuario = {
   id: 1,
   nombre: 'Test User',
@@ -18,7 +7,6 @@ export const mockUsuario = {
   createdAt: new Date('2024-01-01'),
   updatedAt: new Date('2024-01-01')
 };
-
 export const mockCategoria = {
   id: 1,
   nombre: 'Alimentación',
@@ -26,7 +14,6 @@ export const mockCategoria = {
   createdAt: new Date('2024-01-01'),
   updatedAt: new Date('2024-01-01')
 };
-
 export const mockGasto = {
   id: 1,
   usuario_id: 1,
@@ -40,7 +27,6 @@ export const mockGasto = {
   updatedAt: new Date('2024-01-15'),
   categoria: mockCategoria
 };
-
 export const mockIngreso = {
   id: 1,
   usuario_id: 1,
@@ -51,8 +37,6 @@ export const mockIngreso = {
   createdAt: new Date('2024-01-01'),
   updatedAt: new Date('2024-01-01')
 };
-
-// Mock de operaciones CRUD para cada modelo
 export const createMockPrismaClient = () => ({
   usuario: {
     findFirst: jest.fn(),
@@ -98,11 +82,6 @@ export const createMockPrismaClient = () => ({
   $disconnect: jest.fn(),
   $transaction: jest.fn()
 });
-
-// Export del mock por defecto
 const mockPrismaClient = createMockPrismaClient();
-
 export const PrismaClient = jest.fn(() => mockPrismaClient);
-
 export default mockPrismaClient;
-

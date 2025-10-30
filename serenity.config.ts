@@ -1,8 +1,14 @@
 /**
- * Configuración simplificada de Serenity BDD
+ * Configuración REAL de Serenity BDD
  */
 
-import { configure } from '@serenity-js/core';
+import { configure, Cast, Actor } from '@serenity-js/core';
+
+class TrackMyMoneyCast implements Cast {
+  prepare(actor: Actor): Actor {
+    return actor;
+  }
+}
 
 configure({
   crew: [
@@ -11,5 +17,6 @@ configure({
       specDirectory: 'tests/bdd/features',
       outputDirectory: 'tests/bdd/reports/serenity'
     }]
-  ]
+  ],
+  actors: new TrackMyMoneyCast()
 });

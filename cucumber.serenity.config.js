@@ -1,12 +1,12 @@
 /**
- * Configuración de Cucumber con reportes HTML mejorados
- * (Serenity deshabilitado por incompatibilidad de versiones)
+ * Configuración REAL de Cucumber con Serenity BDD
  */
 
 module.exports = {
   default: {
     paths: ['tests/bdd/features/0*.feature'],
     require: [
+      'serenity.config.ts',
       'tests/bdd/support/serenity-world.ts',
       'tests/bdd/step-definitions/serenity.steps.ts'
     ],
@@ -17,11 +17,6 @@ module.exports = {
       'json:tests/bdd/reports/serenity-cucumber-report.json',
       'html:tests/bdd/reports/serenity-cucumber-report.html'
     ],
-    formatOptions: {
-      html: {
-        theme: 'bootstrap'
-      }
-    },
     parallel: 1,
     retry: 0
   }

@@ -1,13 +1,3 @@
-/**
- * Fixtures de datos de prueba
- * Datos reutilizables para todas las pruebas
- * 
- * Principios aplicados:
- * - FIRST: Independent - Cada test usa datos aislados
- * - FIRST: Repeatable - Datos consistentes para cada ejecución
- */
-
-// Usuarios de prueba
 export const usuarios = {
   usuario1: {
     id: 1,
@@ -26,8 +16,6 @@ export const usuarios = {
     updatedAt: new Date('2024-01-02')
   }
 };
-
-// Categorías de prueba
 export const categorias = {
   alimentacion: {
     id: 1,
@@ -51,8 +39,6 @@ export const categorias = {
     updatedAt: new Date('2024-01-01')
   }
 };
-
-// Gastos de prueba
 export const gastos = {
   gasto1: {
     id: 1,
@@ -94,8 +80,6 @@ export const gastos = {
     categoria: categorias.alimentacion
   }
 };
-
-// Ingresos de prueba
 export const ingresos = {
   ingreso1: {
     id: 1,
@@ -118,8 +102,6 @@ export const ingresos = {
     updatedAt: new Date('2024-01-10')
   }
 };
-
-// Datos inválidos para pruebas de validación
 export const datosInvalidos = {
   gastoSinMonto: {
     descripcion: 'Sin monto',
@@ -144,23 +126,18 @@ export const datosInvalidos = {
     nombre: 'A'.repeat(101)
   }
 };
-
-// Helper para crear datos de prueba personalizados
 export const crearGasto = (overrides: Partial<typeof gastos.gasto1> = {}) => ({
   ...gastos.gasto1,
   ...overrides,
   id: Math.floor(Math.random() * 10000)
 });
-
 export const crearIngreso = (overrides: Partial<typeof ingresos.ingreso1> = {}) => ({
   ...ingresos.ingreso1,
   ...overrides,
   id: Math.floor(Math.random() * 10000)
 });
-
 export const crearCategoria = (overrides: Partial<typeof categorias.alimentacion> = {}) => ({
   ...categorias.alimentacion,
   ...overrides,
   id: Math.floor(Math.random() * 10000)
 });
-

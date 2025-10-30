@@ -1,35 +1,22 @@
-/**
- * Step Definitions Simplificadas para BDD
- */
-
 import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { SimpleBDDWorld } from '../support/simple-world';
-
-// Hooks
 Before(function (this: SimpleBDDWorld) {
     this.log('Iniciando escenario');
     this.reset();
 });
-
 After(function (this: SimpleBDDWorld) {
     this.log('Finalizando escenario');
 });
-
-// Steps de autenticación
 Given('que soy un usuario autenticado', function (this: SimpleBDDWorld) {
     this.log('Usuario autenticado');
     this.setAuthenticatedUser();
 });
-
 Given('que no estoy autenticado', function (this: SimpleBDDWorld) {
     this.log('Usuario no autenticado');
     this.setUnauthenticatedUser();
 });
-
-// Steps de gastos
 When('registro un gasto de {string} en {string}', function (this: SimpleBDDWorld, monto: string, categoria: string) {
     this.log('Registrando gasto', { monto, categoria });
-
     if (!this.currentUser) {
         this.lastResponse = {
             status: 401,
@@ -38,7 +25,6 @@ When('registro un gasto de {string} en {string}', function (this: SimpleBDDWorld
         };
         return;
     }
-
     const gasto = {
         id: Math.floor(Math.random() * 1000),
         monto: parseFloat(monto),
@@ -46,19 +32,15 @@ When('registro un gasto de {string} en {string}', function (this: SimpleBDDWorld
         fecha: new Date().toISOString(),
         usuario_id: this.currentUser.id
     };
-
     this.testData.gastos = this.testData.gastos || [];
     this.testData.gastos.push(gasto);
-
     this.lastResponse = {
         status: 201,
         data: gasto
     };
 });
-
 When('consulto mis gastos', function (this: SimpleBDDWorld) {
     this.log('Consultando gastos');
-
     if (!this.currentUser) {
         this.lastResponse = {
             status: 401,
@@ -67,18 +49,14 @@ When('consulto mis gastos', function (this: SimpleBDDWorld) {
         };
         return;
     }
-
     const gastos = this.testData.gastos || [];
     this.lastResponse = {
         status: 200,
         data: gastos
     };
 });
-
-// Steps de ingresos
 When('registro un ingreso de {string} como {string}', function (this: SimpleBDDWorld, monto: string, tipo: string) {
     this.log('Registrando ingreso', { monto, tipo });
-
     if (!this.currentUser) {
         this.lastResponse = {
             status: 401,
@@ -87,7 +65,6 @@ When('registro un ingreso de {string} como {string}', function (this: SimpleBDDW
         };
         return;
     }
-
     const ingreso = {
         id: Math.floor(Math.random() * 1000),
         monto: parseFloat(monto),
@@ -95,19 +72,15 @@ When('registro un ingreso de {string} como {string}', function (this: SimpleBDDW
         fecha: new Date().toISOString(),
         usuario_id: this.currentUser.id
     };
-
     this.testData.ingresos = this.testData.ingresos || [];
     this.testData.ingresos.push(ingreso);
-
     this.lastResponse = {
         status: 201,
         data: ingreso
     };
 });
-
 When('consulto mis ingresos', function (this: SimpleBDDWorld) {
     this.log('Consultando ingresos');
-
     if (!this.currentUser) {
         this.lastResponse = {
             status: 401,
@@ -116,18 +89,14 @@ When('consulto mis ingresos', function (this: SimpleBDDWorld) {
         };
         return;
     }
-
     const ingresos = this.testData.ingresos || [];
     this.lastResponse = {
         status: 200,
         data: ingresos
     };
 });
-
-// Steps de categorías
 When('creo una categoría {string}', function (this: SimpleBDDWorld, nombre: string) {
     this.log('Creando categoría', { nombre });
-
     if (!this.currentUser) {
         this.lastResponse = {
             status: 401,
@@ -136,26 +105,21 @@ When('creo una categoría {string}', function (this: SimpleBDDWorld, nombre: str
         };
         return;
     }
-
     const categoria = {
         id: Math.floor(Math.random() * 1000),
         nombre,
         usuario_id: this.currentUser.id,
         activa: true
     };
-
     this.testData.categorias = this.testData.categorias || [];
     this.testData.categorias.push(categoria);
-
     this.lastResponse = {
         status: 201,
         data: categoria
     };
 });
-
 When('consulto mis categorías', function (this: SimpleBDDWorld) {
     this.log('Consultando categorías');
-
     if (!this.currentUser) {
         this.lastResponse = {
             status: 401,
@@ -164,29 +128,24 @@ When('consulto mis categorías', function (this: SimpleBDDWorld) {
         };
         return;
     }
-
     const categorias = this.testData.categorias || [];
     this.lastResponse = {
         status: 200,
         data: categorias
     };
 });
-
-// Steps de validación
 Then('el registro debe ser exitoso', function (this: SimpleBDDWorld) {
     this.log('Verificando éxito');
     if (!this.lastResponse || this.lastResponse.status < 200 || this.lastResponse.status >= 300) {
         throw new Error(`Esperaba éxito pero obtuve: ${this.lastResponse?.status}`);
     }
 });
-
 Then('debo recibir un error de autenticación', function (this: SimpleBDDWorld) {
     this.log('Verificando error de autenticación');
     if (!this.lastResponse || this.lastResponse.status !== 401) {
         throw new Error(`Esperaba 401 pero obtuve: ${this.lastResponse?.status}`);
     }
 });
-
 Then('debo ver {int} elemento(s)', function (this: SimpleBDDWorld, cantidad: number) {
     this.log('Verificando cantidad', { esperada: cantidad });
     if (!this.lastResponse || !Array.isArray(this.lastResponse.data)) {
@@ -196,7 +155,6 @@ Then('debo ver {int} elemento(s)', function (this: SimpleBDDWorld, cantidad: num
         throw new Error(`Esperaba ${cantidad} elementos pero obtuve ${this.lastResponse.data.length}`);
     }
 });
-
 Then('debo ver una lista vacía', function (this: SimpleBDDWorld) {
     this.log('Verificando lista vacía');
     if (!this.lastResponse || !Array.isArray(this.lastResponse.data)) {
@@ -206,7 +164,6 @@ Then('debo ver una lista vacía', function (this: SimpleBDDWorld) {
         throw new Error(`Esperaba lista vacía pero obtuve ${this.lastResponse.data.length} elementos`);
     }
 });
-
 Then('el elemento debe tener monto {string}', function (this: SimpleBDDWorld, montoEsperado: string) {
     this.log('Verificando monto', { esperado: montoEsperado });
     if (!this.lastResponse || !this.lastResponse.data) {
@@ -217,7 +174,6 @@ Then('el elemento debe tener monto {string}', function (this: SimpleBDDWorld, mo
         throw new Error(`Esperaba monto ${montoEsperado} pero obtuve ${monto}`);
     }
 });
-
 Then('el elemento debe tener nombre {string}', function (this: SimpleBDDWorld, nombreEsperado: string) {
     this.log('Verificando nombre', { esperado: nombreEsperado });
     if (!this.lastResponse || !this.lastResponse.data) {

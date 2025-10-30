@@ -14,7 +14,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1407400
+              "duration": 835499
             }
           },
           {
@@ -23,11 +23,11 @@
             "line": 7,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 9290099
+              "duration": 5575599
             }
           },
           {
@@ -36,11 +36,11 @@
             "line": 8,
             "name": "registro un gasto de \"50.00\" en \"Comida\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:18"
             },
             "result": {
               "status": "passed",
-              "duration": 9684299
+              "duration": 5715799
             }
           },
           {
@@ -49,11 +49,11 @@
             "line": 9,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 2085699
+              "duration": 1314500
             }
           },
           {
@@ -62,11 +62,11 @@
             "line": 10,
             "name": "el elemento debe tener monto \"50.00\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:210"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:167"
             },
             "result": {
               "status": "passed",
-              "duration": 3089799
+              "duration": 3741899
             }
           },
           {
@@ -74,7 +74,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 722299
+              "duration": 2834400
             }
           }
         ],
@@ -93,7 +93,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 550699
+              "duration": 637799
             }
           },
           {
@@ -102,11 +102,11 @@
             "line": 13,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 678299
+              "duration": 619899
             }
           },
           {
@@ -115,11 +115,11 @@
             "line": 14,
             "name": "consulto mis gastos",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:59"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:42"
             },
             "result": {
               "status": "passed",
-              "duration": 1532000
+              "duration": 1278399
             }
           },
           {
@@ -128,11 +128,11 @@
             "line": 15,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 600099
+              "duration": 471199
             }
           },
           {
@@ -141,11 +141,11 @@
             "line": 16,
             "name": "debo ver una lista vacía",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:200"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:158"
             },
             "result": {
               "status": "passed",
-              "duration": 1610599
+              "duration": 1135099
             }
           },
           {
@@ -153,7 +153,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 585199
+              "duration": 411399
             }
           }
         ],
@@ -183,7 +183,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 525999
+              "duration": 630299
             }
           },
           {
@@ -192,11 +192,11 @@
             "line": 7,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 539800
+              "duration": 700299
             }
           },
           {
@@ -205,11 +205,11 @@
             "line": 8,
             "name": "registro un ingreso de \"1000.00\" como \"Salario\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:79"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:58"
             },
             "result": {
               "status": "passed",
-              "duration": 3088800
+              "duration": 5912100
             }
           },
           {
@@ -218,11 +218,11 @@
             "line": 9,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 544399
+              "duration": 659400
             }
           },
           {
@@ -231,11 +231,11 @@
             "line": 10,
             "name": "el elemento debe tener monto \"1000.00\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:210"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:167"
             },
             "result": {
               "status": "passed",
-              "duration": 708099
+              "duration": 1057500
             }
           },
           {
@@ -243,7 +243,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 460399
+              "duration": 538999
             }
           }
         ],
@@ -262,7 +262,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 722699
+              "duration": 481499
             }
           },
           {
@@ -271,11 +271,11 @@
             "line": 13,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 889400
+              "duration": 561100
             }
           },
           {
@@ -284,11 +284,11 @@
             "line": 14,
             "name": "consulto mis ingresos",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:108"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:82"
             },
             "result": {
               "status": "passed",
-              "duration": 1559699
+              "duration": 1653499
             }
           },
           {
@@ -297,11 +297,11 @@
             "line": 15,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 450800
+              "duration": 643500
             }
           },
           {
@@ -310,11 +310,11 @@
             "line": 16,
             "name": "debo ver una lista vacía",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:200"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:158"
             },
             "result": {
               "status": "passed",
-              "duration": 489799
+              "duration": 626700
             }
           },
           {
@@ -352,7 +352,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 425900
+              "duration": 565200
             }
           },
           {
@@ -361,11 +361,11 @@
             "line": 7,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 456199
+              "duration": 518299
             }
           },
           {
@@ -374,11 +374,11 @@
             "line": 8,
             "name": "creo una categoría \"Transporte\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:128"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:98"
             },
             "result": {
               "status": "passed",
-              "duration": 2805999
+              "duration": 3524699
             }
           },
           {
@@ -387,11 +387,11 @@
             "line": 9,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 411699
+              "duration": 568800
             }
           },
           {
@@ -400,11 +400,11 @@
             "line": 10,
             "name": "el elemento debe tener nombre \"Transporte\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:221"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:177"
             },
             "result": {
               "status": "passed",
-              "duration": 2161900
+              "duration": 4185399
             }
           },
           {
@@ -412,7 +412,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 274999
+              "duration": 485799
             }
           }
         ],
@@ -431,7 +431,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 599999
+              "duration": 626999
             }
           },
           {
@@ -440,11 +440,11 @@
             "line": 13,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 501800
+              "duration": 568899
             }
           },
           {
@@ -453,11 +453,11 @@
             "line": 14,
             "name": "consulto mis categorías",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:156"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:121"
             },
             "result": {
               "status": "passed",
-              "duration": 1327099
+              "duration": 1811499
             }
           },
           {
@@ -466,11 +466,11 @@
             "line": 15,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 525200
+              "duration": 475299
             }
           },
           {
@@ -479,11 +479,11 @@
             "line": 16,
             "name": "debo ver una lista vacía",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:200"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:158"
             },
             "result": {
               "status": "passed",
-              "duration": 531699
+              "duration": 527000
             }
           },
           {
@@ -491,7 +491,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 397199
+              "duration": 462899
             }
           }
         ],
@@ -521,7 +521,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 321599
+              "duration": 776499
             }
           },
           {
@@ -530,11 +530,11 @@
             "line": 7,
             "name": "que no estoy autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:24"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:14"
             },
             "result": {
               "status": "passed",
-              "duration": 981600
+              "duration": 1851300
             }
           },
           {
@@ -543,11 +543,11 @@
             "line": 8,
             "name": "registro un gasto de \"25.00\" en \"Café\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:18"
             },
             "result": {
               "status": "passed",
-              "duration": 863499
+              "duration": 1336700
             }
           },
           {
@@ -556,11 +556,11 @@
             "line": 9,
             "name": "debo recibir un error de autenticación",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:183"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:143"
             },
             "result": {
               "status": "passed",
-              "duration": 1347399
+              "duration": 1832199
             }
           },
           {
@@ -568,7 +568,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 279199
+              "duration": 471900
             }
           }
         ],
@@ -587,7 +587,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 360599
+              "duration": 508800
             }
           },
           {
@@ -596,11 +596,11 @@
             "line": 12,
             "name": "que no estoy autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:24"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:14"
             },
             "result": {
               "status": "passed",
-              "duration": 425599
+              "duration": 507599
             }
           },
           {
@@ -609,11 +609,11 @@
             "line": 13,
             "name": "consulto mis gastos",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:59"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:42"
             },
             "result": {
               "status": "passed",
-              "duration": 400599
+              "duration": 412000
             }
           },
           {
@@ -622,11 +622,11 @@
             "line": 14,
             "name": "debo recibir un error de autenticación",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:183"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:143"
             },
             "result": {
               "status": "passed",
-              "duration": 581700
+              "duration": 436599
             }
           },
           {
@@ -634,7 +634,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 406600
+              "duration": 345800
             }
           }
         ],
@@ -664,7 +664,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 471400
+              "duration": 731299
             }
           },
           {
@@ -673,11 +673,11 @@
             "line": 7,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 557499
+              "duration": 605900
             }
           },
           {
@@ -686,11 +686,11 @@
             "line": 8,
             "name": "creo una categoría \"Alimentación\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:128"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:98"
             },
             "result": {
               "status": "passed",
-              "duration": 741899
+              "duration": 857600
             }
           },
           {
@@ -699,11 +699,11 @@
             "line": 9,
             "name": "registro un gasto de \"30.00\" en \"Alimentación\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:18"
             },
             "result": {
               "status": "passed",
-              "duration": 644999
+              "duration": 581799
             }
           },
           {
@@ -712,11 +712,11 @@
             "line": 10,
             "name": "registro un ingreso de \"500.00\" como \"Freelance\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:79"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:58"
             },
             "result": {
               "status": "passed",
-              "duration": 905499
+              "duration": 815100
             }
           },
           {
@@ -725,11 +725,11 @@
             "line": 11,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 319999
+              "duration": 293799
             }
           },
           {
@@ -737,7 +737,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 292000
+              "duration": 361399
             }
           }
         ],
@@ -756,7 +756,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 399699
+              "duration": 269200
             }
           },
           {
@@ -765,11 +765,11 @@
             "line": 14,
             "name": "que soy un usuario autenticado",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:19"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:10"
             },
             "result": {
               "status": "passed",
-              "duration": 473399
+              "duration": 354200
             }
           },
           {
@@ -778,11 +778,11 @@
             "line": 15,
             "name": "creo una categoría \"Entretenimiento\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:128"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:98"
             },
             "result": {
               "status": "passed",
-              "duration": 456100
+              "duration": 483300
             }
           },
           {
@@ -791,11 +791,11 @@
             "line": 16,
             "name": "registro un gasto de \"75.00\" en \"Entretenimiento\"",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:30"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:18"
             },
             "result": {
               "status": "passed",
-              "duration": 545000
+              "duration": 487600
             }
           },
           {
@@ -804,11 +804,11 @@
             "line": 17,
             "name": "consulto mis gastos",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:59"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:42"
             },
             "result": {
               "status": "passed",
-              "duration": 431499
+              "duration": 269299
             }
           },
           {
@@ -817,11 +817,11 @@
             "line": 18,
             "name": "el registro debe ser exitoso",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:176"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:137"
             },
             "result": {
               "status": "passed",
-              "duration": 359300
+              "duration": 251499
             }
           },
           {
@@ -830,11 +830,11 @@
             "line": 19,
             "name": "debo ver 1 elemento",
             "match": {
-              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:190"
+              "location": "file:\\C:\\Users\\Tux\\Desktop\\Developing\\trackmymoney\\tests\\bdd\\step-definitions\\simple.steps.ts:149"
             },
             "result": {
               "status": "passed",
-              "duration": 2063799
+              "duration": 2362900
             }
           },
           {
@@ -842,7 +842,7 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 539899
+              "duration": 214899
             }
           }
         ],
