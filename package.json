@@ -28,7 +28,7 @@
     "react-dom": "^18",
     "react-hot-toast": "^2.5.2",
     "recharts": "^2.15.3",
-    "swagger-ui-react": "^5.20.8"
+    "swagger-ui-react": "^5.30.3"
   },
   "devDependencies": {
     "@prisma/client": "^6.8.2",
